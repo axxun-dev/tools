@@ -370,10 +370,25 @@ function buildSvcCells() {
     var cell = el(a[0]);
     cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
       + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
-      + '<input type="number" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
-      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0;-moz-appearance:textfield">'
+      + '<input type="text" inputmode="numeric" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
+      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0;">'
       + '</div>';
-    el(a[1]).addEventListener('input', calc);
+    var input = el(a[1]);
+    input.addEventListener('input', function() {
+      var raw = this.value.replace(/\s/g, '').replace(/[^0-9]/g, '');
+      var num = parseInt(raw) || 0;
+      var pos = this.selectionStart;
+      this.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+      calc();
+    });
+    input.addEventListener('blur', function() {
+      var raw = parseInt(this.value.replace(/\s/g, '')) || 0;
+      this.value = raw > 0 ? raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+    });
+    input.addEventListener('focus', function() {
+      var raw = parseInt(this.value.replace(/\s/g, '')) || 0;
+      this.value = raw > 0 ? String(raw) : '';
+    });
   });
 }
 
@@ -447,11 +462,11 @@ function calc() {
   var users = parseInt(el('users').value) || 0;
   var hourly = parseFloat(el('hourly').value) || 0;
   var svcKey = el('service').value || 'wm';
-  var priceEur = P.prices[svcKey] || 0;
+  var priceEur = svcKey ? (P.prices[svcKey] || 0) : 0;
   var discount = parseFloat(el('discount').value) || 0;
   var svc1El = el('svc1'); var svc2El = el('svc2');
-  var svc1 = svc1El ? (parseFloat(svc1El.value) || 0) : 0;
-  var svc2 = svc2El ? (parseFloat(svc2El.value) || 0) : 0;
+  var svc1 = svc1El ? (parseInt(svc1El.value.replace(/\s/g, '')) || 0) : 0;
+  var svc2 = svc2El ? (parseInt(svc2El.value.replace(/\s/g, '')) || 0) : 0;
 
   var licEurFull = users * priceEur * 12;
   var licChfFull = licEurFull * P.fx;
@@ -460,8 +475,8 @@ function calc() {
 
   txt('lic-detail', users + ' users × ' + priceEur + ' €/mois × 12 → ' + fmt(licChfFull));
   var discHtml = discount > 0 ? '<span style="font-size:12px;color:var(--muted);font-weight:400">− ' + fmt(discountChf) + '</span>' : '';
-  set('c-lic-y1', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<br>' + discHtml : ''));
-  set('c-lic-y2', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<br>' + discHtml : ''));
+  set('c-lic-y1', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<span style="display:block;line-height:1.2;margin-top:2px">' + discHtml + '</span>' : ''));
+  set('c-lic-y2', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<span style="display:block;line-height:1.2;margin-top:2px">' + discHtml + '</span>' : ''));
 
   var adoptIdx = parseInt(el('adopt-sel').value) || 0;
   var adoptTier = P.adopt[adoptIdx];
