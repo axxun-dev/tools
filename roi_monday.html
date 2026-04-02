@@ -187,11 +187,11 @@ input:focus,select:focus{border-color:var(--teal)}
     <div class="trow" style="grid-template-columns:1fr 170px 170px">
       <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
         <span id="lbl-gpalier">Temps gagné / collaborateur / semaine</span>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:nowrap;white-space:nowrap">
           <span style="font-size:12px;color:var(--muted)" id="lbl-gyr1">Année 1 :</span>
-          <select id="gain-sel-1"></select>
-          <span style="font-size:12px;color:var(--muted);margin-left:14px" id="lbl-gyr2">Année 2 :</span>
-          <select id="gain-sel-2"></select>
+          <select id="gain-sel-1" style="min-width:0"></select>
+          <span style="font-size:12px;color:var(--muted);margin-left:8px" id="lbl-gyr2">Année 2 :</span>
+          <select id="gain-sel-2" style="min-width:0"></select>
         </div>
       </div>
       <div class="td r" id="g-h1">—</div>
