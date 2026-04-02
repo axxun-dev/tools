@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#061947;--teal:#67DEEC;--teal-bg:rgba(103,222,236,0.13);
+  --border:rgba(6,25,71,0.10);--shadow:0 2px 16px rgba(6,25,71,0.07),0 1px 3px rgba(6,25,71,0.05);
+  --muted:rgba(6,25,71,0.50);--subtle:rgba(6,25,71,0.32);
+  --r:8px;--rl:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:var(--navy);font-size:15px}
+.app{max-width:900px;margin:0 auto;padding:1.75rem 1.25rem 4rem}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.hdr-title{font-size:18px;font-weight:600}
+.hdr-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.lbtn{padding:5px 15px;border-radius:20px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);transition:.15s}
+.lbtn.on{background:var(--teal);color:var(--navy);border-color:var(--teal);font-weight:700}
+.lbtn:hover:not(.on){border-color:var(--teal)}
+.ibtn{width:36px;height:36px;border-radius:var(--r);border:1px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);color:var(--navy);transition:.15s}
+.ibtn:hover,.ibtn.on{background:var(--navy);color:var(--teal);border-color:var(--navy)}
+.card{background:#fff;border-radius:var(--rl);box-shadow:var(--shadow);padding:1.4rem 1.6rem;margin-bottom:1.1rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:12px;font-weight:500;color:var(--muted)}
+input[type=number],input[type=text],input[type=password],select{
+  padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);
+  background:#fff;color:var(--navy);font-size:14px;outline:none;width:100%;
+  transition:border-color .15s;-moz-appearance:textfield
+}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--teal)}
+.pbox{background:#F4F7FB;border:1px solid var(--border);border-radius:var(--r);padding:11px 13px}
+.pbox-name{font-size:11px;font-weight:700;color:var(--subtle);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+.tbl{background:#fff;border-radius:var(--rl);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.1rem}
+.trow{display:grid;border-top:1px solid var(--border)}
+.trow:first-child{border-top:none}
+.thead{background:#EEF2FA}
+.th{padding:10px 16px;font-size:11px;font-weight:700;color:var(--subtle);text-transform:uppercase;letter-spacing:.07em;border-left:1px solid var(--border)}
+.th:first-child{border-left:none}
+.td{padding:12px 16px;border-left:1px solid var(--border);display:flex;align-items:center;color:var(--navy);font-size:14px}
+.td:first-child{border-left:none}
+.td.r{justify-content:flex-end;font-variant-numeric:tabular-nums}
+.td.vcenter{align-items:center;flex-direction:column;justify-content:center;gap:4px;text-align:right}
+.td.inp{padding:0}
+.td.inp input{width:100%;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px;-moz-appearance:textfield}
+.td select{border:1px solid var(--border);padding:4px 8px;border-radius:5px;font-size:12px;background:#F4F7FB;width:auto}
+.tsubt{font-size:12px;color:var(--muted);margin-top:3px}
+.trow.tot{background:#EEF2FA}
+.trow.tot .td{font-weight:600}
+.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.roi-card{background:#fff;border-radius:var(--rl);box-shadow:var(--shadow);padding:1.6rem 1.2rem;text-align:center;border-top:3px solid var(--border)}
+.roi-card.pos{border-top-color:var(--teal)}
+.roi-card.neg{border-top-color:#E05050}
+.roi-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.8rem}
+.roi-val{font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--navy)}
+.roi-pct{font-size:14px;font-weight:500;color:var(--muted);margin-top:.35rem}
+.sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--subtle);margin:1.75rem 0 .7rem}
+.yr-pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;background:var(--teal-bg);color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--navy);font-weight:600;margin-left:5px;vertical-align:middle}
+.hidden{display:none}
+.divider{height:1px;background:var(--border);margin:.75rem 0}
+.modal-overlay{position:fixed;inset:0;background:rgba(6,25,71,0.45);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal-box{background:#fff;border-radius:var(--rl);box-shadow:0 8px 40px rgba(6,25,71,0.18);padding:2rem 2.5rem;width:320px}
+</style>
+</head>
+<body>
+<div class="app">
+
+
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="hdr-title">ROI Calculator <span style="color:var(--teal)">·</span> monday.com</div>
+    <div class="hdr-sub"><span id="axxun-trigger" style="cursor:default;user-select:none">Axxun</span> — Partenaire monday.com</div>
+  </div>
+  <div class="hdr-right">
+    <button class="lbtn on" id="btn-fr">FR</button>
+    <button class="lbtn" id="btn-en">EN</button>
+  </div>
+</div>
+
+<!-- PARAMS PANEL -->
+<div id="panel" class="hidden">
+  <div class="sec-lbl">Prix licences monday.com <span class="tag">€ / user / mois</span></div>
+  <div class="card"><div class="g4" id="lic-inputs"></div></div>
+
+  <div class="sec-lbl" id="lbl-fx">Taux de change</div>
+  <div class="card">
+    <div class="g2">
+      <div class="fld">
+        <label id="lbl-fxrate">1 € = x CHF</label>
+        <input type="number" id="fx" value="0.97" step="0.001" min="0.01">
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-lbl" id="lbl-adopt">Paliers d'adoption <span class="tag" id="lbl-adopt-unit">jours / utilisateur</span></div>
+  <div class="card"><div class="g4" id="adopt-inputs"></div></div>
+
+  <div class="sec-lbl" id="lbl-gain">Paliers de gains de temps <span class="tag" id="lbl-gain-unit">heures / user / semaine</span></div>
+  <div class="card">
+    <div class="g5" id="gain-inputs"></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+      <div class="fld" style="max-width:240px">
+        <label id="lbl-weeks">Semaines travaillées / an</label>
+        <input type="number" id="weeks" value="46" min="1" max="52">
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.2rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:14px">
+    <button id="save-btn" style="padding:10px 30px;background:var(--teal);color:var(--navy);border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer">Enregistrer</button>
+    <span id="save-msg" style="font-size:13px;color:#067A85;opacity:0;transition:opacity .4s">✓ Paramètres enregistrés</span>
+  </div>
+  <div class="divider"></div>
+</div>
+
+<!-- CALCULATOR -->
+<div id="calc-sections">
+  <div class="card" style="margin-top:.25rem">
+    <div class="g3">
+      <div class="fld">
+        <label id="lbl-users">Nombre d'utilisateurs</label>
+        <input type="number" id="users" value="25" min="1">
+      </div>
+      <div class="fld">
+        <label id="lbl-service">Produit</label>
+        <select id="service"></select>
+      </div>
+      <div class="fld">
+        <label id="lbl-hourly">Coût horaire interne (CHF/h)</label>
+        <input type="number" id="hourly" value="75" min="1">
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="sec-lbl" id="lbl-s2">Coûts</div>
+  <div class="tbl">
+    <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
+      <div class="th" id="lbl-th">Poste</div>
+      <div class="th" style="text-align:center" id="lbl-th-yr1">Année 1</div>
+      <div class="th" style="text-align:center" id="lbl-th-yr2">Année 2</div>
+    </div>
+    <div class="trow" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span id="lbl-clic">Licences</span>
+        <span class="tsubt" id="lic-detail">—</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <label style="font-size:12px;color:var(--muted)" id="lbl-discount">Remise</label>
+          <input type="number" id="discount" value="0" min="0" max="100" style="width:72px;padding:4px 8px;font-size:13px">
+          <span style="font-size:12px;color:var(--muted)">%</span>
+        </div>
+      </div>
+      <div class="td r vcenter" id="c-lic-y1">—</div>
+      <div class="td r vcenter" id="c-lic-y2">—</div>
+    </div>
+    <div class="trow" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" style="flex-direction:column;align-items:flex-start;gap:3px">
+        <span id="lbl-csvc">Services Axxun</span>
+        <span class="tsubt">CHF</span>
+      </div>
+      <div class="td inp" id="svc1-cell"></div>
+      <div class="td inp" id="svc2-cell"></div>
+    </div>
+    <div class="trow" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
+        <span id="lbl-cadopt">Coût d'adoption</span>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:12px;color:var(--muted)" id="lbl-palier">Palier :</span>
+          <select id="adopt-sel"></select>
+        </div>
+        <span class="tsubt" id="adopt-detail">—</span>
+      </div>
+      <div class="td r" id="c-adopt-y1">—</div>
+      <div class="td r" id="c-adopt-y2">—</div>
+    </div>
+    <div class="trow tot" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" id="lbl-tcosts">Total coûts</div>
+      <div class="td r" id="tc1">—</div>
+      <div class="td r" id="tc2">—</div>
+    </div>
+  </div>
+
+  <div class="sec-lbl" id="lbl-s3">Gains</div>
+  <div class="tbl">
+    <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
+      <div class="th" id="lbl-th2">Poste</div>
+      <div class="th" style="text-align:center" id="lbl-th-yr1b">Année 1</div>
+      <div class="th" style="text-align:center" id="lbl-th-yr2b">Année 2</div>
+    </div>
+    <div class="trow" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
+        <span id="lbl-gpalier">Temps gagné / collaborateur / semaine</span>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="font-size:12px;color:var(--muted)" id="lbl-gyr1">Année 1 :</span>
+          <select id="gain-sel-1"></select>
+          <span style="font-size:12px;color:var(--muted);margin-left:14px" id="lbl-gyr2">Année 2 :</span>
+          <select id="gain-sel-2"></select>
+        </div>
+      </div>
+      <div class="td r" id="g-h1">—</div>
+      <div class="td r" id="g-h2">—</div>
+    </div>
+    <div class="trow" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" id="lbl-gval">Valeur totale des heures économisées</div>
+      <div class="td r" id="g-chf1">—</div>
+      <div class="td r" id="g-chf2">—</div>
+    </div>
+    <div class="trow tot" style="grid-template-columns:1fr 170px 170px">
+      <div class="td" id="lbl-tgains">Total gains</div>
+      <div class="td r" id="tg1">—</div>
+      <div class="td r" id="tg2">—</div>
+    </div>
+  </div>
+
+  <div class="sec-lbl" id="lbl-s4">Résultat ROI</div>
+  <div class="roi-grid">
+    <div class="roi-card" id="rc1">
+      <div class="roi-lbl" id="lbl-rc1">Année 1</div>
+      <div class="roi-val" id="rv1">—</div>
+      <div class="roi-pct" id="rp1">—</div>
+    </div>
+    <div class="roi-card" id="rc2">
+      <div class="roi-lbl" id="lbl-rc2">Année 2</div>
+      <div class="roi-val" id="rv2">—</div>
+      <div class="roi-pct" id="rp2">—</div>
+    </div>
+    <div class="roi-card" id="rcC">
+      <div class="roi-lbl" id="lbl-rcC">ROI cumulé 2 ans</div>
+      <div class="roi-val" id="rvC">—</div>
+      <div class="roi-pct" id="rpC">—</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+var lang = 'fr';
+
+var P = {
+  prices: {wm:12, crm:12, dev:12, service:12},
+  fx: 0.97, weeks: 46,
+  adopt: [
+    {name:'Ninja!', val:0.5}, {name:'Enthousiastes', val:1},
+    {name:'Classique', val:2}, {name:'Résistants', val:3}
+  ],
+  gain: [
+    {name:'Very low', val:0.5}, {name:'Low', val:1},
+    {name:'Medium', val:2}, {name:'High', val:4}, {name:'Very high', val:6}
+  ]
+};
+
+var TR = {
+  fr: {
+    fx:'Taux de change', fxrate:'1 € = x CHF', weeks:'Semaines travaillées / an',
+    adopt:'Paliers d\'adoption', adoptUnit:'jours / utilisateur',
+    gain:'Paliers de gains de temps', gainUnit:'heures / user / semaine',
+    save:'Enregistrer', saved:'✓ Paramètres enregistrés',
+    s2:'Coûts', s3:'Gains', s4:'Résultat ROI',
+    users:'Nombre d\'utilisateurs', service:'Produit', hourly:'Coût horaire interne (CHF/h)',
+    yr1:'Année 1', yr2:'Année 2', th:'Poste',
+    clic:'Licences', discount:'Remise', csvc:'Services Axxun',
+    cadopt:'Coût d\'adoption', palier:'Palier :', tcosts:'Total coûts',
+    gpalier:'Temps gagné / collaborateur / semaine',
+    gval:'Valeur totale des heures économisées', tgains:'Total gains',
+    rcum:'ROI cumulé 2 ans',
+    svcs: ['Work Management','CRM','Dev','Service']
+  },
+  en: {
+    fx:'Exchange rate', fxrate:'1 € = x CHF', weeks:'Working weeks / year',
+    adopt:'Adoption tiers', adoptUnit:'days / user',
+    gain:'Time-saved tiers', gainUnit:'hours / user / week',
+    save:'Save', saved:'✓ Settings saved',
+    s2:'Costs', s3:'Gains', s4:'ROI Result',
+    users:'Number of users', service:'Product', hourly:'Internal hourly rate (CHF/h)',
+    yr1:'Year 1', yr2:'Year 2', th:'Item',
+    clic:'Licenses', discount:'Discount', csvc:'Axxun services',
+    cadopt:'Adoption cost', palier:'Tier:', tcosts:'Total costs',
+    gpalier:'Time saved / collaborator / week',
+    gval:'Total value of saved hours', tgains:'Total gains',
+    rcum:'Cumulative 2-year ROI',
+    svcs: ['Work Management','CRM','Dev','Service']
+  }
+};
+
+function fmt(n) {
+  var abs = Math.round(Math.abs(n));
+  var s = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
+  return (n < 0 ? '− ' : '') + 'Chf\u00a0' + s;
+}
+function fmtH(n) {
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') + ' h';
+}
+function el(id) { return document.getElementById(id); }
+function set(id, html) { var e = el(id); if (e) e.innerHTML = html; }
+function txt(id, t) { var e = el(id); if (e) e.textContent = t; }
+
+el('axxun-trigger').addEventListener('click', togglePanel);
+
+
+
+// Lang buttons
+el('btn-fr').addEventListener('click', function() { setLang('fr'); });
+el('btn-en').addEventListener('click', function() { setLang('en'); });
+
+// Save button
+el('save-btn').addEventListener('click', saveParams);
+
+// Calc triggers
+['users','hourly','discount'].forEach(function(id) {
+  el(id).addEventListener('input', calc);
+});
+el('service').addEventListener('change', calc);
+el('adopt-sel').addEventListener('change', calc);
+el('gain-sel-1').addEventListener('change', calc);
+el('gain-sel-2').addEventListener('change', calc);
+
+function togglePanel() {
+  var p = el('panel');
+  var cs = el('calc-sections');
+  var hidden = p.classList.toggle('hidden');
+  cs.classList.toggle('hidden', !hidden);
+}
+
+function setLang(l) {
+  lang = l;
+  el('btn-fr').classList.toggle('on', l === 'fr');
+  el('btn-en').classList.toggle('on', l === 'en');
+  applyT();
+  buildSelects();
+  buildParamInputs();
+  calc();
+}
+
+function applyT() {
+  var t = TR[lang];
+  txt('lbl-fx', t.fx);
+  txt('lbl-fxrate', t.fxrate);
+  txt('lbl-weeks', t.weeks);
+  txt('lbl-adopt', t.adopt);
+  txt('lbl-adopt-unit', t.adoptUnit);
+  txt('lbl-gain', t.gain);
+  txt('lbl-gain-unit', t.gainUnit);
+  txt('save-btn', t.save);
+  txt('lbl-s2', t.s2); txt('lbl-s3', t.s3); txt('lbl-s4', t.s4);
+  txt('lbl-users', t.users); txt('lbl-service', t.service); txt('lbl-hourly', t.hourly);
+  txt('lbl-yr1', t.yr1); txt('lbl-yr2', t.yr2);
+  txt('lbl-th', t.th); txt('lbl-th-yr1', t.yr1); txt('lbl-th-yr2', t.yr2);
+  txt('lbl-th2', t.th); txt('lbl-th-yr1b', t.yr1); txt('lbl-th-yr2b', t.yr2);
+  txt('lbl-clic', t.clic); txt('lbl-discount', t.discount);
+  txt('lbl-csvc', t.csvc); txt('lbl-cadopt', t.cadopt); txt('lbl-palier', t.palier);
+  txt('lbl-tcosts', t.tcosts);
+  txt('lbl-gpalier', t.gpalier); txt('lbl-gval', t.gval); txt('lbl-tgains', t.tgains);
+  txt('lbl-gyr1', t.yr1 + ' :'); txt('lbl-gyr2', t.yr2 + ' :');
+  txt('lbl-rc1', t.yr1); txt('lbl-rc2', t.yr2); txt('lbl-rcC', t.rcum);
+}
+
+function buildSvcCells() {
+  [['svc1-cell','svc1',12000],['svc2-cell','svc2',5000]].forEach(function(a) {
+    var cell = el(a[0]);
+    cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
+      + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
+      + '<input type="number" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
+      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0;-moz-appearance:textfield">'
+      + '</div>';
+    el(a[1]).addEventListener('input', calc);
+  });
+}
+
+function buildParamInputs() {
+  var t = TR[lang];
+  var svcs = ['wm','crm','dev','service'];
+  var lc = el('lic-inputs'); lc.innerHTML = '';
+  svcs.forEach(function(k, i) {
+    lc.innerHTML += '<div class="pbox"><div class="pbox-name">' + t.svcs[i] + '</div>'
+      + '<input type="number" value="' + P.prices[k] + '" min="0" step="0.01"'
+      + ' oninput="P.prices[\'' + k + '\']=parseFloat(this.value)||0"></div>';
+  });
+  var ac = el('adopt-inputs'); ac.innerHTML = '';
+  P.adopt.forEach(function(a, i) {
+    ac.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
+      + '<input type="text" value="' + a.name + '" placeholder="Nom"'
+      + ' oninput="P.adopt[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      + '<input type="number" value="' + a.val + '" min="0" step="0.5"'
+      + ' oninput="P.adopt[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
+      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + t.adoptUnit + '</div></div>';
+  });
+  var gc = el('gain-inputs'); gc.innerHTML = '';
+  P.gain.forEach(function(g, i) {
+    gc.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
+      + '<input type="text" value="' + g.name + '" placeholder="Nom"'
+      + ' oninput="P.gain[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      + '<input type="number" value="' + g.val + '" min="0" step="0.5"'
+      + ' oninput="P.gain[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
+      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + t.gainUnit + '</div></div>';
+  });
+  el('fx').value = P.fx;
+  el('weeks').value = P.weeks;
+}
+
+function buildSelects() {
+  var t = TR[lang];
+  var svcs = ['wm','crm','dev','service'];
+  var sm = el('service');
+  var sv = sm.value;
+  sm.innerHTML = svcs.map(function(k,i){ return '<option value="'+k+'">'+t.svcs[i]+'</option>'; }).join('');
+  if (sv) sm.value = sv;
+
+  var as = el('adopt-sel');
+  var av = as.value;
+  as.innerHTML = P.adopt.map(function(a,i){ return '<option value="'+i+'">'+a.name+'</option>'; }).join('');
+  if (av !== '') as.value = av;
+
+  ['gain-sel-1','gain-sel-2'].forEach(function(id, yi) {
+    var e = el(id);
+    var pv = e.value;
+    e.innerHTML = P.gain.map(function(g,i){ return '<option value="'+i+'">'+g.name+' ('+g.val+'h)</option>'; }).join('');
+    if (pv !== '') e.value = pv;
+    else e.value = yi === 0 ? 1 : 2;
+  });
+}
+
+function saveParams() {
+  P.fx = parseFloat(el('fx').value) || 0.97;
+  P.weeks = parseInt(el('weeks').value) || 46;
+  try {
+    localStorage.setItem('roi_params', JSON.stringify(P));
+  } catch(e) {}
+  calc();
+  var msg = el('save-msg');
+  msg.textContent = TR[lang].saved;
+  msg.style.opacity = '1';
+  setTimeout(function() { msg.style.opacity = '0'; }, 2500);
+}
+
+function calc() {
+  var users = parseInt(el('users').value) || 0;
+  var hourly = parseFloat(el('hourly').value) || 0;
+  var svcKey = el('service').value || 'wm';
+  var priceEur = P.prices[svcKey] || 0;
+  var discount = parseFloat(el('discount').value) || 0;
+  var svc1El = el('svc1'); var svc2El = el('svc2');
+  var svc1 = svc1El ? (parseFloat(svc1El.value) || 0) : 0;
+  var svc2 = svc2El ? (parseFloat(svc2El.value) || 0) : 0;
+
+  var licEurFull = users * priceEur * 12;
+  var licChfFull = licEurFull * P.fx;
+  var discountChf = licChfFull * (discount / 100);
+  var licChf = licChfFull - discountChf;
+
+  txt('lic-detail', users + ' users × ' + priceEur + ' €/mois × 12 → ' + fmt(licChfFull));
+  var discHtml = discount > 0 ? '<span style="font-size:12px;color:var(--muted);font-weight:400">− ' + fmt(discountChf) + '</span>' : '';
+  set('c-lic-y1', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<br>' + discHtml : ''));
+  set('c-lic-y2', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<br>' + discHtml : ''));
+
+  var adoptIdx = parseInt(el('adopt-sel').value) || 0;
+  var adoptTier = P.adopt[adoptIdx];
+  var adoptCost = users * adoptTier.val * 8 * hourly;
+  txt('adopt-detail', adoptTier.name + ' : ' + adoptTier.val + ' j/user × 8h × ' + users + ' users');
+  set('c-adopt-y1', fmt(adoptCost));
+  set('c-adopt-y2', fmt(adoptCost));
+
+  var tc1 = licChf + svc1 + adoptCost;
+  var tc2 = licChf + svc2 + adoptCost;
+  set('tc1', fmt(tc1)); set('tc2', fmt(tc2));
+
+  var gi1 = parseInt(el('gain-sel-1').value) || 0;
+  var gi2 = parseInt(el('gain-sel-2').value) || 0;
+  var totalH1 = P.gain[gi1].val * P.weeks * users;
+  var totalH2 = P.gain[gi2].val * P.weeks * users;
+  var gChf1 = totalH1 * hourly;
+  var gChf2 = totalH2 * hourly;
+
+  set('g-h1', fmtH(totalH1)); set('g-h2', fmtH(totalH2));
+  set('g-chf1', fmt(gChf1)); set('g-chf2', fmt(gChf2));
+  set('tg1', fmt(gChf1)); set('tg2', fmt(gChf2));
+
+  var roi1 = gChf1 - tc1, roi2 = gChf2 - tc2, roiC = roi1 + roi2;
+  var rp1 = tc1 > 0 ? roi1/tc1*100 : 0;
+  var rp2 = tc2 > 0 ? roi2/tc2*100 : 0;
+  var rpC = (tc1+tc2) > 0 ? roiC/(tc1+tc2)*100 : 0;
+  setROI('rc1','rv1','rp1', roi1, rp1);
+  setROI('rc2','rv2','rp2', roi2, rp2);
+  setROI('rcC','rvC','rpC', roiC, rpC);
+}
+
+function setROI(cid, vid, pid, val, pct) {
+  var c = el(cid);
+  c.className = 'roi-card' + (val > 0 ? ' pos' : val < 0 ? ' neg' : '');
+  set(vid, fmt(val));
+  set(pid, (pct >= 0 ? '+' : '') + Math.round(pct) + '%');
+}
+
+async function loadParams() {
+  try {
+    var stored = localStorage.getItem('roi_params');
+    if (stored) {
+      var saved = JSON.parse(stored);
+      if (saved.prices) P.prices = saved.prices;
+      if (saved.fx) P.fx = saved.fx;
+      if (saved.weeks) P.weeks = saved.weeks;
+      if (saved.adopt) P.adopt = saved.adopt;
+      if (saved.gain) P.gain = saved.gain;
+    }
+  } catch(e) {}
+  buildParamInputs();
+  buildSvcCells();
+  buildSelects();
+  applyT();
+  calc();
+}
+
+loadParams();
+</script>
+</body>
+</html>
