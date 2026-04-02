@@ -375,8 +375,8 @@ function buildSelects() {
 
   var as = el('adopt-sel');
   var av = as.value;
-  as.innerHTML = P.adopt.map(function(a,i){ return '<option value="' + i + '">' + a.name + '</option>'; }).join('');
-  as.value = (av !== '') ? av : '2';
+  as.innerHTML = '<option value="">—</option>' + P.adopt.map(function(a,i){ return '<option value="' + i + '">' + a.name + '</option>'; }).join('');
+  as.value = (av !== '') ? av : '';
 
   var gs = ['gain-sel-1','gain-sel-2'];
   var gd = ['1','2'];
@@ -441,10 +441,15 @@ function calc() {
   set('c-lic-y1', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
   set('c-lic-y2', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
 
-  var adoptIdx  = parseInt(el('adopt-sel').value) || 0;
-  var adoptTier = P.adopt[adoptIdx];
-  var adoptCost = users * adoptTier.val * 8 * hourly;
-  txt('adopt-detail', adoptTier.name + ' : ' + adoptTier.val + ' j/user × 8h × ' + users + ' users');
+  var adoptIdx  = el('adopt-sel').value !== '' ? parseInt(el('adopt-sel').value) : -1;
+  var adoptCost = 0;
+  var adoptName = '—';
+  if (adoptIdx >= 0 && P.adopt[adoptIdx]) {
+    var adoptTier = P.adopt[adoptIdx];
+    adoptCost = users * adoptTier.val * 8 * hourly;
+    adoptName = adoptTier.name + ' : ' + adoptTier.val + ' j/user × 8h × ' + users + ' users';
+  }
+  txt('adopt-detail', adoptName);
   set('c-adopt-y1', fmtN(adoptCost));
   set('c-adopt-y2', fmtN(adoptCost));
 
