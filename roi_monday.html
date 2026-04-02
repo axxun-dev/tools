@@ -129,7 +129,7 @@ input:focus,select:focus{border-color:var(--teal)}
     <div class="g3">
       <div class="fld">
         <label id="lbl-users">Nombre d'utilisateurs</label>
-        <input type="number" id="users" value="25" min="1">
+        <input type="number" id="users" value="0" min="0">
       </div>
       <div class="fld">
         <label id="lbl-service">Produit</label>
@@ -137,7 +137,7 @@ input:focus,select:focus{border-color:var(--teal)}
       </div>
       <div class="fld">
         <label id="lbl-hourly">Coût horaire interne (CHF/h)</label>
-        <input type="number" id="hourly" value="75" min="1">
+        <input type="number" id="hourly" value="45" min="0">
       </div>
     </div>
   </div>
@@ -248,15 +248,15 @@ input:focus,select:focus{border-color:var(--teal)}
 var lang = 'fr';
 
 var P = {
-  prices: {wm:12, crm:12, dev:12, service:12},
+  prices: {wm:52, crm:65, dev:35, service:71},
   fx: 0.97, weeks: 46,
   adopt: [
-    {name:'Ninja!', val:0.5}, {name:'Enthousiastes', val:1},
-    {name:'Classique', val:2}, {name:'Résistants', val:3}
+    {name:'Ninja!', val:2}, {name:'Enthousiastes', val:3},
+    {name:'Classique', val:4}, {name:'Résistants', val:6}
   ],
   gain: [
-    {name:'Very low', val:0.5}, {name:'Low', val:1},
-    {name:'Medium', val:2}, {name:'High', val:4}, {name:'Very high', val:6}
+    {name:'Very low', val:1}, {name:'Low', val:2},
+    {name:'Medium', val:4}, {name:'High', val:6}, {name:'Ninja!', val:8}
   ]
 };
 
@@ -366,7 +366,7 @@ function applyT() {
 }
 
 function buildSvcCells() {
-  [['svc1-cell','svc1',12000],['svc2-cell','svc2',5000]].forEach(function(a) {
+  [['svc1-cell','svc1',0],['svc2-cell','svc2',0]].forEach(function(a) {
     var cell = el(a[0]);
     cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
       + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
@@ -413,20 +413,20 @@ function buildSelects() {
   var svcs = ['wm','crm','dev','service'];
   var sm = el('service');
   var sv = sm.value;
-  sm.innerHTML = svcs.map(function(k,i){ return '<option value="'+k+'">'+t.svcs[i]+'</option>'; }).join('');
+  sm.innerHTML = '<option value="">—</option>' + svcs.map(function(k,i){ return '<option value="'+k+'">'+t.svcs[i]+'</option>'; }).join('');
   if (sv) sm.value = sv;
 
   var as = el('adopt-sel');
   var av = as.value;
   as.innerHTML = P.adopt.map(function(a,i){ return '<option value="'+i+'">'+a.name+'</option>'; }).join('');
-  if (av !== '') as.value = av;
+  as.value = (av !== '') ? av : '2';
 
   ['gain-sel-1','gain-sel-2'].forEach(function(id, yi) {
     var e = el(id);
     var pv = e.value;
     e.innerHTML = P.gain.map(function(g,i){ return '<option value="'+i+'">'+g.name+' ('+g.val+'h)</option>'; }).join('');
     if (pv !== '') e.value = pv;
-    else e.value = yi === 0 ? 1 : 2;
+    else e.value = yi === 0 ? '1' : '2';
   });
 }
 
