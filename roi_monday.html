@@ -17,11 +17,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hdr-title{font-size:18px;font-weight:600}
 .hdr-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .hdr-right{display:flex;align-items:center;gap:8px}
-.lbtn{padding:5px 15px;border-radius:20px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);transition:.15s}
+.lbtn{padding:5px 15px;border-radius:20px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted)}
 .lbtn.on{background:var(--teal);color:var(--navy);border-color:var(--teal);font-weight:700}
-.lbtn:hover:not(.on){border-color:var(--teal)}
-.ibtn{width:36px;height:36px;border-radius:var(--r);border:1px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);color:var(--navy);transition:.15s}
-.ibtn:hover,.ibtn.on{background:var(--navy);color:var(--teal);border-color:var(--navy)}
 .card{background:#fff;border-radius:var(--rl);box-shadow:var(--shadow);padding:1.4rem 1.6rem;margin-bottom:1.1rem}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
@@ -29,11 +26,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .fld{display:flex;flex-direction:column;gap:6px}
 .fld label{font-size:12px;font-weight:500;color:var(--muted)}
-input[type=number],input[type=text],input[type=password],select{
-  padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);
-  background:#fff;color:var(--navy);font-size:14px;outline:none;width:100%;
-  transition:border-color .15s;-moz-appearance:textfield
-}
+input,select{padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);background:#fff;color:var(--navy);font-size:14px;outline:none;width:100%;-moz-appearance:textfield}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
 input:focus,select:focus{border-color:var(--teal)}
 .pbox{background:#F4F7FB;border:1px solid var(--border);border-radius:var(--r);padding:11px 13px}
@@ -47,10 +40,8 @@ input:focus,select:focus{border-color:var(--teal)}
 .td{padding:12px 16px;border-left:1px solid var(--border);display:flex;align-items:center;color:var(--navy);font-size:14px}
 .td:first-child{border-left:none}
 .td.r{justify-content:flex-end;font-variant-numeric:tabular-nums}
-.td.vcenter{align-items:center;flex-direction:column;justify-content:center;gap:4px;text-align:right}
+.td.vcenter{align-items:center;flex-direction:column;justify-content:center;gap:2px;text-align:right}
 .td.inp{padding:0}
-.td.inp input{width:100%;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px;-moz-appearance:textfield}
-.td select{border:1px solid var(--border);padding:4px 8px;border-radius:5px;font-size:12px;background:#F4F7FB;width:auto}
 .tsubt{font-size:12px;color:var(--muted);margin-top:3px}
 .trow.tot{background:#EEF2FA}
 .trow.tot .td{font-weight:600}
@@ -62,18 +53,13 @@ input:focus,select:focus{border-color:var(--teal)}
 .roi-val{font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--navy)}
 .roi-pct{font-size:14px;font-weight:500;color:var(--muted);margin-top:.35rem}
 .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--subtle);margin:1.75rem 0 .7rem}
-.yr-pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;background:var(--teal-bg);color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
 .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--navy);font-weight:600;margin-left:5px;vertical-align:middle}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
-.modal-overlay{position:fixed;inset:0;background:rgba(6,25,71,0.45);display:flex;align-items:center;justify-content:center;z-index:100}
-.modal-box{background:#fff;border-radius:var(--rl);box-shadow:0 8px 40px rgba(6,25,71,0.18);padding:2rem 2.5rem;width:320px}
 </style>
 </head>
 <body>
 <div class="app">
-
-
 
 <!-- HEADER -->
 <div class="hdr">
@@ -102,10 +88,10 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
-  <div class="sec-lbl" id="lbl-adopt">Paliers d'adoption <span class="tag" id="lbl-adopt-unit">jours / utilisateur</span></div>
+  <div class="sec-lbl" id="lbl-adopt-title">Paliers d'adoption <span class="tag" id="lbl-adopt-unit">jours / utilisateur</span></div>
   <div class="card"><div class="g4" id="adopt-inputs"></div></div>
 
-  <div class="sec-lbl" id="lbl-gain">Paliers de gains de temps <span class="tag" id="lbl-gain-unit">heures / user / semaine</span></div>
+  <div class="sec-lbl" id="lbl-gain-title">Paliers de gains de temps <span class="tag" id="lbl-gain-unit">heures / user / semaine</span></div>
   <div class="card">
     <div class="g5" id="gain-inputs"></div>
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
@@ -118,7 +104,7 @@ input:focus,select:focus{border-color:var(--teal)}
 
   <div style="margin-top:1.2rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:14px">
     <button id="save-btn" style="padding:10px 30px;background:var(--teal);color:var(--navy);border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer">Enregistrer</button>
-    <span id="save-msg" style="font-size:13px;color:#067A85;opacity:0;transition:opacity .4s">✓ Paramètres enregistrés</span>
+    <span id="save-msg" style="font-size:13px;color:#067A85;opacity:0;transition:opacity .4s"></span>
   </div>
   <div class="divider"></div>
 </div>
@@ -142,8 +128,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
-
-
+  <!-- COSTS -->
   <div class="sec-lbl" id="lbl-s2">Coûts</div>
   <div class="tbl">
     <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
@@ -175,9 +160,9 @@ input:focus,select:focus{border-color:var(--teal)}
     <div class="trow" style="grid-template-columns:1fr 170px 170px">
       <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
         <span id="lbl-cadopt">Coût d'adoption</span>
-        <div style="display:flex;align-items:center;gap:7px">
-          <span style="font-size:12px;color:var(--muted)" id="lbl-palier">Palier :</span>
-          <select id="adopt-sel"></select>
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:nowrap">
+          <span style="font-size:12px;color:var(--muted);white-space:nowrap" id="lbl-palier">Palier :</span>
+          <select id="adopt-sel" style="min-width:0;flex:1"></select>
         </div>
         <span class="tsubt" id="adopt-detail">—</span>
       </div>
@@ -191,6 +176,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
+  <!-- GAINS -->
   <div class="sec-lbl" id="lbl-s3">Gains</div>
   <div class="tbl">
     <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
@@ -223,6 +209,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
+  <!-- ROI -->
   <div class="sec-lbl" id="lbl-s4">Résultat ROI</div>
   <div class="roi-grid">
     <div class="roi-card" id="rc1">
@@ -247,53 +234,54 @@ input:focus,select:focus{border-color:var(--teal)}
 <script>
 var lang = 'fr';
 
+var DN_ADOPT_FR = [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}];
+var DN_ADOPT_EN = [{name:'Ninja!',val:2},{name:'Enthusiasts',val:3},{name:'Classic',val:4},{name:'Resistant',val:6}];
+var DN_GAIN     = [{name:'Very low',val:1},{name:'Low',val:2},{name:'Medium',val:4},{name:'High',val:6},{name:'Ninja!',val:8}];
+
 var P = {
-  prices: {wm:52, crm:65, dev:35, service:71},
+  prices: {wm:52,crm:65,dev:35,service:71},
   fx: 0.97, weeks: 46,
-  adopt: [
-    {name:'Ninja!', val:2}, {name:'Enthousiastes', val:3},
-    {name:'Classique', val:4}, {name:'Résistants', val:6}
-  ],
-  gain: [
-    {name:'Very low', val:1}, {name:'Low', val:2},
-    {name:'Medium', val:4}, {name:'High', val:6}, {name:'Ninja!', val:8}
-  ]
+  adopt: [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}],
+  gain:  [{name:'Very low',val:1},{name:'Low',val:2},{name:'Medium',val:4},{name:'High',val:6},{name:'Ninja!',val:8}]
 };
 
-var TR = {
-  fr: {
-    fx:'Taux de change', fxrate:'1 € = x CHF', weeks:'Semaines travaillées / an',
-    adopt:'Paliers d\'adoption', adoptUnit:'jours / utilisateur',
-    gain:'Paliers de gains de temps', gainUnit:'heures / user / semaine',
-    save:'Enregistrer', saved:'✓ Paramètres enregistrés',
-    s2:'Coûts', s3:'Gains', s4:'Résultat ROI',
-    users:'Nombre d\'utilisateurs', service:'Produit', hourly:'Coût horaire interne (CHF/h)',
-    yr1:'Année 1', yr2:'Année 2', th:'Poste',
-    clic:'Licences', discount:'Remise', csvc:'Services Axxun',
-    cadopt:'Coût d\'adoption', palier:'Palier :', tcosts:'Total coûts',
-    gpalier:'Temps gagné / collaborateur / semaine',
-    gval:'Valeur totale des heures économisées', tgains:'Total gains',
-    rcum:'ROI cumulé 2 ans',
-    svcs: ['Work Management','CRM','Dev','Service']
-  },
-  en: {
-    fx:'Exchange rate', fxrate:'1 € = x CHF', weeks:'Working weeks / year',
-    adopt:'Adoption tiers', adoptUnit:'days / user',
-    gain:'Time-saved tiers', gainUnit:'hours / user / week',
-    save:'Save', saved:'✓ Settings saved',
-    s2:'Costs', s3:'Gains', s4:'ROI Result',
-    users:'Number of users', service:'Product', hourly:'Internal hourly rate (CHF/h)',
-    yr1:'Year 1', yr2:'Year 2', th:'Item',
-    clic:'Licenses', discount:'Discount', csvc:'Axxun services',
-    cadopt:'Adoption cost', palier:'Tier:', tcosts:'Total costs',
-    gpalier:'Time saved / collaborator / week',
-    gval:'Total value of saved hours', tgains:'Total gains',
-    rcum:'Cumulative 2-year ROI',
-    svcs: ['Work Management','CRM','Dev','Service']
-  }
+var TR_FR = {
+  fx:'Taux de change', fxrate:'1 € = x CHF', weeks:'Semaines travaillées / an',
+  adoptTitle:'Paliers d\'adoption', adoptUnit:'jours / utilisateur',
+  gainTitle:'Paliers de gains de temps', gainUnit:'heures / user / semaine',
+  save:'Enregistrer', saved:'✓ Paramètres enregistrés',
+  s2:'Coûts', s3:'Gains', s4:'Résultat ROI',
+  users:'Nombre d\'utilisateurs', service:'Produit', hourly:'Coût horaire interne (CHF/h)',
+  yr1:'Année 1', yr2:'Année 2', th:'Poste',
+  clic:'Licences', discount:'Remise', csvc:'Services Axxun',
+  cadopt:'Coût d\'adoption', palier:'Palier :', tcosts:'Total coûts',
+  gpalier:'Temps gagné / collaborateur / semaine',
+  gval:'Valeur totale des heures économisées', tgains:'Total gains',
+  rcum:'ROI cumulé 2 ans',
+  svcs: ['Work Management','CRM','Dev','Service']
+};
+var TR_EN = {
+  fx:'Exchange rate', fxrate:'1 € = x CHF', weeks:'Working weeks / year',
+  adoptTitle:'Adoption tiers', adoptUnit:'days / user',
+  gainTitle:'Time-saved tiers', gainUnit:'hours / user / week',
+  save:'Save', saved:'✓ Settings saved',
+  s2:'Costs', s3:'Gains', s4:'ROI Result',
+  users:'Number of users', service:'Product', hourly:'Internal hourly rate (CHF/h)',
+  yr1:'Year 1', yr2:'Year 2', th:'Item',
+  clic:'Licenses', discount:'Discount', csvc:'Axxun services',
+  cadopt:'Adoption cost', palier:'Tier:', tcosts:'Total costs',
+  gpalier:'Time saved / collaborator / week',
+  gval:'Total value of saved hours', tgains:'Total gains',
+  rcum:'Cumulative 2-year ROI',
+  svcs: ['Work Management','CRM','Dev','Service']
 };
 
-function fmt(n) {
+function t() { return lang === 'fr' ? TR_FR : TR_EN; }
+function el(id) { return document.getElementById(id); }
+function set(id, html) { var e = el(id); if (e) e.innerHTML = html; }
+function txt(id, v) { var e = el(id); if (e) e.textContent = v; }
+
+function fmtN(n) {
   var abs = Math.round(Math.abs(n));
   var s = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
   return (n < 0 ? '− ' : '') + 'Chf\u00a0' + s;
@@ -301,29 +289,130 @@ function fmt(n) {
 function fmtH(n) {
   return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') + ' h';
 }
-function el(id) { return document.getElementById(id); }
-function set(id, html) { var e = el(id); if (e) e.innerHTML = html; }
-function txt(id, t) { var e = el(id); if (e) e.textContent = t; }
 
-el('axxun-trigger').addEventListener('click', togglePanel);
+function applyT() {
+  var tr = t();
+  txt('lbl-fx', tr.fx); txt('lbl-fxrate', tr.fxrate); txt('lbl-weeks', tr.weeks);
+  txt('lbl-adopt-title', tr.adoptTitle); txt('lbl-adopt-unit', tr.adoptUnit);
+  txt('lbl-gain-title', tr.gainTitle); txt('lbl-gain-unit', tr.gainUnit);
+  txt('save-btn', tr.save);
+  txt('lbl-s2', tr.s2); txt('lbl-s3', tr.s3); txt('lbl-s4', tr.s4);
+  txt('lbl-users', tr.users); txt('lbl-service', tr.service); txt('lbl-hourly', tr.hourly);
+  txt('lbl-th', tr.th); txt('lbl-th-yr1', tr.yr1); txt('lbl-th-yr2', tr.yr2);
+  txt('lbl-th2', tr.th); txt('lbl-th-yr1b', tr.yr1); txt('lbl-th-yr2b', tr.yr2);
+  txt('lbl-clic', tr.clic); txt('lbl-discount', tr.discount);
+  txt('lbl-csvc', tr.csvc); txt('lbl-cadopt', tr.cadopt); txt('lbl-palier', tr.palier);
+  txt('lbl-tcosts', tr.tcosts);
+  txt('lbl-gpalier', tr.gpalier); txt('lbl-gval', tr.gval); txt('lbl-tgains', tr.tgains);
+  txt('lbl-gyr1', tr.yr1 + ' :'); txt('lbl-gyr2', tr.yr2 + ' :');
+  txt('lbl-rc1', tr.yr1); txt('lbl-rc2', tr.yr2); txt('lbl-rcC', tr.rcum);
+}
 
+function buildSvcCells() {
+  var items = [['svc1-cell','svc1',0],['svc2-cell','svc2',0]];
+  items.forEach(function(a) {
+    var cell = el(a[0]);
+    cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
+      + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
+      + '<input type="text" inputmode="numeric" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
+      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0">'
+      + '</div>';
+    var inp = el(a[1]);
+    inp.addEventListener('input', function() {
+      var raw = this.value.replace(/[\s\u2009]/g, '').replace(/[^0-9]/g, '');
+      var num = parseInt(raw) || 0;
+      this.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+      calc();
+    });
+    inp.addEventListener('focus', function() {
+      var raw = parseInt(this.value.replace(/[\s\u2009]/g, '')) || 0;
+      this.value = raw > 0 ? String(raw) : '';
+    });
+    inp.addEventListener('blur', function() {
+      var raw = parseInt(this.value.replace(/[\s\u2009]/g, '')) || 0;
+      this.value = raw > 0 ? raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+    });
+  });
+}
 
+function buildParamInputs() {
+  var tr = t();
+  var svcs = ['wm','crm','dev','service'];
+  var lc = el('lic-inputs'); lc.innerHTML = '';
+  svcs.forEach(function(k, i) {
+    lc.innerHTML += '<div class="pbox"><div class="pbox-name">' + tr.svcs[i] + '</div>'
+      + '<input type="number" value="' + P.prices[k] + '" min="0" step="0.01"'
+      + ' oninput="P.prices[\'' + k + '\']=parseFloat(this.value)||0"></div>';
+  });
+  var ac = el('adopt-inputs'); ac.innerHTML = '';
+  P.adopt.forEach(function(a, i) {
+    ac.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
+      + '<input type="text" value="' + a.name + '" oninput="P.adopt[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      + '<input type="number" value="' + a.val + '" min="0" step="0.5"'
+      + ' oninput="P.adopt[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
+      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + tr.adoptUnit + '</div></div>';
+  });
+  var gc = el('gain-inputs'); gc.innerHTML = '';
+  P.gain.forEach(function(g, i) {
+    gc.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
+      + '<input type="text" value="' + g.name + '" oninput="P.gain[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      + '<input type="number" value="' + g.val + '" min="0" step="0.5"'
+      + ' oninput="P.gain[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
+      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + tr.gainUnit + '</div></div>';
+  });
+  el('fx').value = P.fx;
+  el('weeks').value = P.weeks;
+}
 
-// Lang buttons
-el('btn-fr').addEventListener('click', function() { setLang('fr'); });
-el('btn-en').addEventListener('click', function() { setLang('en'); });
+function buildSelects() {
+  var tr = t();
+  var svcs = ['wm','crm','dev','service'];
+  var sm = el('service');
+  var sv = sm.value;
+  sm.innerHTML = '<option value="">—</option>'
+    + svcs.map(function(k,i){ return '<option value="' + k + '">' + tr.svcs[i] + '</option>'; }).join('');
+  if (sv) sm.value = sv;
 
-// Save button
-el('save-btn').addEventListener('click', saveParams);
+  var as = el('adopt-sel');
+  var av = as.value;
+  as.innerHTML = P.adopt.map(function(a,i){ return '<option value="' + i + '">' + a.name + '</option>'; }).join('');
+  as.value = (av !== '') ? av : '2';
 
-// Calc triggers
-['users','hourly','discount'].forEach(function(id) {
-  el(id).addEventListener('input', calc);
-});
-el('service').addEventListener('change', calc);
-el('adopt-sel').addEventListener('change', calc);
-el('gain-sel-1').addEventListener('change', calc);
-el('gain-sel-2').addEventListener('change', calc);
+  var gs = ['gain-sel-1','gain-sel-2'];
+  var gd = ['1','2'];
+  gs.forEach(function(id, yi) {
+    var e = el(id);
+    var pv = e.value;
+    e.innerHTML = P.gain.map(function(g,i){ return '<option value="' + i + '">' + g.name + ' (' + g.val + 'h)</option>'; }).join('');
+    e.value = (pv !== '') ? pv : gd[yi];
+  });
+}
+
+function saveParams() {
+  P.fx = parseFloat(el('fx').value) || 0.97;
+  P.weeks = parseInt(el('weeks').value) || 46;
+  try { localStorage.setItem('roi_params', JSON.stringify(P)); } catch(e) {}
+  calc();
+  var msg = el('save-msg');
+  msg.textContent = t().saved;
+  msg.style.opacity = '1';
+  setTimeout(function() { msg.style.opacity = '0'; }, 2500);
+}
+
+function setLang(l) {
+  var prev = lang;
+  lang = l;
+  el('btn-fr').classList.toggle('on', l === 'fr');
+  el('btn-en').classList.toggle('on', l === 'en');
+  if (prev !== l) {
+    var fromAdopt = prev === 'fr' ? DN_ADOPT_FR : DN_ADOPT_EN;
+    var toAdopt   = l   === 'fr' ? DN_ADOPT_FR : DN_ADOPT_EN;
+    P.adopt.forEach(function(a, i) {
+      if (i < fromAdopt.length && a.name === fromAdopt[i].name) a.name = toAdopt[i].name;
+    });
+  }
+  applyT(); buildSelects(); buildParamInputs(); calc();
+}
 
 function togglePanel() {
   var p = el('panel');
@@ -332,178 +421,52 @@ function togglePanel() {
   cs.classList.toggle('hidden', !hidden);
 }
 
-function setLang(l) {
-  lang = l;
-  el('btn-fr').classList.toggle('on', l === 'fr');
-  el('btn-en').classList.toggle('on', l === 'en');
-  applyT();
-  buildSelects();
-  buildParamInputs();
-  calc();
-}
-
-function applyT() {
-  var t = TR[lang];
-  txt('lbl-fx', t.fx);
-  txt('lbl-fxrate', t.fxrate);
-  txt('lbl-weeks', t.weeks);
-  txt('lbl-adopt', t.adopt);
-  txt('lbl-adopt-unit', t.adoptUnit);
-  txt('lbl-gain', t.gain);
-  txt('lbl-gain-unit', t.gainUnit);
-  txt('save-btn', t.save);
-  txt('lbl-s2', t.s2); txt('lbl-s3', t.s3); txt('lbl-s4', t.s4);
-  txt('lbl-users', t.users); txt('lbl-service', t.service); txt('lbl-hourly', t.hourly);
-  txt('lbl-yr1', t.yr1); txt('lbl-yr2', t.yr2);
-  txt('lbl-th', t.th); txt('lbl-th-yr1', t.yr1); txt('lbl-th-yr2', t.yr2);
-  txt('lbl-th2', t.th); txt('lbl-th-yr1b', t.yr1); txt('lbl-th-yr2b', t.yr2);
-  txt('lbl-clic', t.clic); txt('lbl-discount', t.discount);
-  txt('lbl-csvc', t.csvc); txt('lbl-cadopt', t.cadopt); txt('lbl-palier', t.palier);
-  txt('lbl-tcosts', t.tcosts);
-  txt('lbl-gpalier', t.gpalier); txt('lbl-gval', t.gval); txt('lbl-tgains', t.tgains);
-  txt('lbl-gyr1', t.yr1 + ' :'); txt('lbl-gyr2', t.yr2 + ' :');
-  txt('lbl-rc1', t.yr1); txt('lbl-rc2', t.yr2); txt('lbl-rcC', t.rcum);
-}
-
-function buildSvcCells() {
-  [['svc1-cell','svc1',0],['svc2-cell','svc2',0]].forEach(function(a) {
-    var cell = el(a[0]);
-    cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
-      + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
-      + '<input type="text" inputmode="numeric" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
-      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0;">'
-      + '</div>';
-    var input = el(a[1]);
-    input.addEventListener('input', function() {
-      var raw = this.value.replace(/\s/g, '').replace(/[^0-9]/g, '');
-      var num = parseInt(raw) || 0;
-      var pos = this.selectionStart;
-      this.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
-      calc();
-    });
-    input.addEventListener('blur', function() {
-      var raw = parseInt(this.value.replace(/\s/g, '')) || 0;
-      this.value = raw > 0 ? raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
-    });
-    input.addEventListener('focus', function() {
-      var raw = parseInt(this.value.replace(/\s/g, '')) || 0;
-      this.value = raw > 0 ? String(raw) : '';
-    });
-  });
-}
-
-function buildParamInputs() {
-  var t = TR[lang];
-  var svcs = ['wm','crm','dev','service'];
-  var lc = el('lic-inputs'); lc.innerHTML = '';
-  svcs.forEach(function(k, i) {
-    lc.innerHTML += '<div class="pbox"><div class="pbox-name">' + t.svcs[i] + '</div>'
-      + '<input type="number" value="' + P.prices[k] + '" min="0" step="0.01"'
-      + ' oninput="P.prices[\'' + k + '\']=parseFloat(this.value)||0"></div>';
-  });
-  var ac = el('adopt-inputs'); ac.innerHTML = '';
-  P.adopt.forEach(function(a, i) {
-    ac.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
-      + '<input type="text" value="' + a.name + '" placeholder="Nom"'
-      + ' oninput="P.adopt[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
-      + '<input type="number" value="' + a.val + '" min="0" step="0.5"'
-      + ' oninput="P.adopt[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
-      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + t.adoptUnit + '</div></div>';
-  });
-  var gc = el('gain-inputs'); gc.innerHTML = '';
-  P.gain.forEach(function(g, i) {
-    gc.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
-      + '<input type="text" value="' + g.name + '" placeholder="Nom"'
-      + ' oninput="P.gain[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
-      + '<input type="number" value="' + g.val + '" min="0" step="0.5"'
-      + ' oninput="P.gain[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
-      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + t.gainUnit + '</div></div>';
-  });
-  el('fx').value = P.fx;
-  el('weeks').value = P.weeks;
-}
-
-function buildSelects() {
-  var t = TR[lang];
-  var svcs = ['wm','crm','dev','service'];
-  var sm = el('service');
-  var sv = sm.value;
-  sm.innerHTML = '<option value="">—</option>' + svcs.map(function(k,i){ return '<option value="'+k+'">'+t.svcs[i]+'</option>'; }).join('');
-  if (sv) sm.value = sv;
-
-  var as = el('adopt-sel');
-  var av = as.value;
-  as.innerHTML = P.adopt.map(function(a,i){ return '<option value="'+i+'">'+a.name+'</option>'; }).join('');
-  as.value = (av !== '') ? av : '2';
-
-  ['gain-sel-1','gain-sel-2'].forEach(function(id, yi) {
-    var e = el(id);
-    var pv = e.value;
-    e.innerHTML = P.gain.map(function(g,i){ return '<option value="'+i+'">'+g.name+' ('+g.val+'h)</option>'; }).join('');
-    if (pv !== '') e.value = pv;
-    else e.value = yi === 0 ? '1' : '2';
-  });
-}
-
-function saveParams() {
-  P.fx = parseFloat(el('fx').value) || 0.97;
-  P.weeks = parseInt(el('weeks').value) || 46;
-  try {
-    localStorage.setItem('roi_params', JSON.stringify(P));
-  } catch(e) {}
-  calc();
-  var msg = el('save-msg');
-  msg.textContent = TR[lang].saved;
-  msg.style.opacity = '1';
-  setTimeout(function() { msg.style.opacity = '0'; }, 2500);
-}
-
 function calc() {
-  var users = parseInt(el('users').value) || 0;
-  var hourly = parseFloat(el('hourly').value) || 0;
-  var svcKey = el('service').value || 'wm';
+  var users    = parseInt(el('users').value) || 0;
+  var hourly   = parseFloat(el('hourly').value) || 0;
+  var svcKey   = el('service').value;
   var priceEur = svcKey ? (P.prices[svcKey] || 0) : 0;
   var discount = parseFloat(el('discount').value) || 0;
-  var svc1El = el('svc1'); var svc2El = el('svc2');
-  var svc1 = svc1El ? (parseInt(svc1El.value.replace(/\s/g, '')) || 0) : 0;
-  var svc2 = svc2El ? (parseInt(svc2El.value.replace(/\s/g, '')) || 0) : 0;
+  var svc1El = el('svc1'), svc2El = el('svc2');
+  var svc1 = svc1El ? (parseInt(svc1El.value.replace(/[\s\u2009]/g,'')) || 0) : 0;
+  var svc2 = svc2El ? (parseInt(svc2El.value.replace(/[\s\u2009]/g,'')) || 0) : 0;
 
-  var licEurFull = users * priceEur * 12;
-  var licChfFull = licEurFull * P.fx;
+  var licEurFull  = users * priceEur * 12;
+  var licChfFull  = licEurFull * P.fx;
   var discountChf = licChfFull * (discount / 100);
-  var licChf = licChfFull - discountChf;
+  var licChf      = licChfFull - discountChf;
 
-  txt('lic-detail', users + ' users × ' + priceEur + ' €/mois × 12 → ' + fmt(licChfFull));
-  var discHtml = discount > 0 ? '<span style="font-size:12px;color:var(--muted);font-weight:400">− ' + fmt(discountChf) + '</span>' : '';
-  set('c-lic-y1', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<span style="display:block;line-height:1.2;margin-top:2px">' + discHtml + '</span>' : ''));
-  set('c-lic-y2', '<span style="font-weight:500">' + fmt(licChf) + '</span>' + (discount > 0 ? '<span style="display:block;line-height:1.2;margin-top:2px">' + discHtml + '</span>' : ''));
+  txt('lic-detail', users + ' users × ' + priceEur + ' €/mois × 12 → ' + fmtN(licChfFull));
+  var discHtml = discount > 0 ? '<span style="font-size:12px;color:var(--muted);font-weight:400;line-height:1.2;margin-top:2px;display:block">− ' + fmtN(discountChf) + '</span>' : '';
+  set('c-lic-y1', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
+  set('c-lic-y2', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
 
-  var adoptIdx = parseInt(el('adopt-sel').value) || 0;
+  var adoptIdx  = parseInt(el('adopt-sel').value) || 0;
   var adoptTier = P.adopt[adoptIdx];
   var adoptCost = users * adoptTier.val * 8 * hourly;
   txt('adopt-detail', adoptTier.name + ' : ' + adoptTier.val + ' j/user × 8h × ' + users + ' users');
-  set('c-adopt-y1', fmt(adoptCost));
-  set('c-adopt-y2', fmt(adoptCost));
+  set('c-adopt-y1', fmtN(adoptCost));
+  set('c-adopt-y2', fmtN(adoptCost));
 
   var tc1 = licChf + svc1 + adoptCost;
   var tc2 = licChf + svc2 + adoptCost;
-  set('tc1', fmt(tc1)); set('tc2', fmt(tc2));
+  set('tc1', fmtN(tc1)); set('tc2', fmtN(tc2));
 
-  var gi1 = parseInt(el('gain-sel-1').value) || 0;
-  var gi2 = parseInt(el('gain-sel-2').value) || 0;
+  var gi1    = parseInt(el('gain-sel-1').value) || 0;
+  var gi2    = parseInt(el('gain-sel-2').value) || 0;
   var totalH1 = P.gain[gi1].val * P.weeks * users;
   var totalH2 = P.gain[gi2].val * P.weeks * users;
-  var gChf1 = totalH1 * hourly;
-  var gChf2 = totalH2 * hourly;
+  var gChf1   = totalH1 * hourly;
+  var gChf2   = totalH2 * hourly;
 
   set('g-h1', fmtH(totalH1)); set('g-h2', fmtH(totalH2));
-  set('g-chf1', fmt(gChf1)); set('g-chf2', fmt(gChf2));
-  set('tg1', fmt(gChf1)); set('tg2', fmt(gChf2));
+  set('g-chf1', fmtN(gChf1)); set('g-chf2', fmtN(gChf2));
+  set('tg1', fmtN(gChf1)); set('tg2', fmtN(gChf2));
 
   var roi1 = gChf1 - tc1, roi2 = gChf2 - tc2, roiC = roi1 + roi2;
-  var rp1 = tc1 > 0 ? roi1/tc1*100 : 0;
-  var rp2 = tc2 > 0 ? roi2/tc2*100 : 0;
-  var rpC = (tc1+tc2) > 0 ? roiC/(tc1+tc2)*100 : 0;
+  var rp1  = tc1 > 0 ? roi1/tc1*100 : 0;
+  var rp2  = tc2 > 0 ? roi2/tc2*100 : 0;
+  var rpC  = (tc1+tc2) > 0 ? roiC/(tc1+tc2)*100 : 0;
   setROI('rc1','rv1','rp1', roi1, rp1);
   setROI('rc2','rv2','rp2', roi2, rp2);
   setROI('rcC','rvC','rpC', roiC, rpC);
@@ -512,20 +475,20 @@ function calc() {
 function setROI(cid, vid, pid, val, pct) {
   var c = el(cid);
   c.className = 'roi-card' + (val > 0 ? ' pos' : val < 0 ? ' neg' : '');
-  set(vid, fmt(val));
+  set(vid, fmtN(val));
   set(pid, (pct >= 0 ? '+' : '') + Math.round(pct) + '%');
 }
 
-async function loadParams() {
+function loadParams() {
   try {
     var stored = localStorage.getItem('roi_params');
     if (stored) {
       var saved = JSON.parse(stored);
       if (saved.prices) P.prices = saved.prices;
-      if (saved.fx) P.fx = saved.fx;
-      if (saved.weeks) P.weeks = saved.weeks;
-      if (saved.adopt) P.adopt = saved.adopt;
-      if (saved.gain) P.gain = saved.gain;
+      if (saved.fx)     P.fx     = saved.fx;
+      if (saved.weeks)  P.weeks  = saved.weeks;
+      if (saved.adopt)  P.adopt  = saved.adopt;
+      if (saved.gain)   P.gain   = saved.gain;
     }
   } catch(e) {}
   buildParamInputs();
@@ -534,6 +497,19 @@ async function loadParams() {
   applyT();
   calc();
 }
+
+// Event listeners
+el('btn-fr').addEventListener('click', function() { setLang('fr'); });
+el('btn-en').addEventListener('click', function() { setLang('en'); });
+el('axxun-trigger').addEventListener('click', togglePanel);
+el('save-btn').addEventListener('click', saveParams);
+el('users').addEventListener('input', calc);
+el('service').addEventListener('change', calc);
+el('hourly').addEventListener('input', calc);
+el('discount').addEventListener('input', calc);
+el('adopt-sel').addEventListener('change', calc);
+el('gain-sel-1').addEventListener('change', calc);
+el('gain-sel-2').addEventListener('change', calc);
 
 loadParams();
 </script>
