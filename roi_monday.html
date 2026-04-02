@@ -58,94 +58,12 @@ input:focus,select:focus{border-color:var(--teal)}
 .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--navy);font-weight:600;margin-left:5px;vertical-align:middle}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
-
-@media print {
-  @page{margin:1cm 2cm;size:A4}
-  body{font-size:10px;background:#fff;color:#061947}
-
-  /* Hide screen elements */
-  .hdr-right,.no-print,.card .fld input,.card .fld select,
-  .td.inp,.tsubt,#adopt-detail,#lic-detail,.divider{display:none!important}
-
-  /* Reset layout */
-  .app{padding:0;max-width:100%}
-
-  /* Print header */
-  .print-logo{display:flex!important;align-items:center;justify-content:space-between;padding-bottom:8px;margin-bottom:12px;border-bottom:2px solid #061947}
-
-  /* Hide screen header, show print title inline */
-  .hdr{display:none!important}
-
-  /* Client card → simple table */
-  .card{box-shadow:none;border:none;padding:0;margin-bottom:10px;break-inside:avoid}
-  .g3{display:flex;gap:24px}
-  .fld{flex:1}
-  .fld label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(6,25,71,0.45);display:block;margin-bottom:2px}
-  .fld-val{font-size:13px;font-weight:600;color:#061947;border-bottom:1px solid rgba(6,25,71,0.15);padding-bottom:4px}
-
-  /* Section labels */
-  .sec-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(6,25,71,0.4);margin:10px 0 4px}
-
-  /* Tables */
-  .tbl{box-shadow:none;border:1px solid rgba(6,25,71,0.12);border-radius:4px;overflow:hidden;margin-bottom:10px;break-inside:avoid}
-  .trow{display:grid}
-  .thead{background:#EEF2FA}
-  .th{padding:6px 10px;font-size:8px;font-weight:700;color:rgba(6,25,71,0.45);text-transform:uppercase;letter-spacing:.07em;border-left:1px solid rgba(6,25,71,0.10)}
-  .th:first-child{border-left:none}
-  .td{padding:7px 10px;font-size:10px;border-left:1px solid rgba(6,25,71,0.10)}
-  .td:first-child{border-left:none}
-  .td.r{text-align:right;justify-content:flex-end}
-  .td.vcenter{flex-direction:column;align-items:flex-end;justify-content:center;gap:2px}
-  .td.inp{padding:7px 10px!important}
-  .td.inp input{display:block!important;border:none;background:transparent;font-size:10px;color:#061947;text-align:right;width:100%;padding:0}
-  .td select{display:block!important;border:none;background:transparent;font-size:10px;color:#061947;padding:0;width:auto}
-  .trow.tot{background:#EEF2FA}
-  .trow.tot .td{font-weight:700}
-
-  /* ROI cards */
-  .roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;break-inside:avoid}
-  .roi-card{border:1px solid rgba(6,25,71,0.12);border-radius:4px;padding:10px 8px;text-align:center;box-shadow:none;border-top:3px solid rgba(6,25,71,0.12)}
-  .roi-card.pos{border-top-color:#67DEEC}
-  .roi-card.neg{border-top-color:#E05050}
-  .roi-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(6,25,71,0.45);margin-bottom:4px}
-  .roi-val{font-size:18px;font-weight:700;color:#061947}
-  .roi-pct{font-size:10px;font-weight:600;color:rgba(6,25,71,0.5);margin-top:2px}
-
-  .print-client{display:block!important;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(6,25,71,0.10)}
-  .print-footer{display:flex!important;position:fixed;bottom:0;left:0;right:0;
-    padding:.5cm 2cm;border-top:1px solid rgba(6,25,71,0.15);
-    background:#fff;align-items:center;gap:1.5rem}
-}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- PRINT HEADER -->
-<div class="print-logo" style="display:none">
-  <img src="https://axxun.ch/wp-content/uploads/Axxun-logo.png" style="height:22px;width:auto">
-  <div style="text-align:right">
-    <div style="font-size:13px;font-weight:700;color:#061947">ROI Calculator · monday.com</div>
-    <div style="font-size:9px;color:rgba(6,25,71,0.5)" id="print-date"></div>
-  </div>
-</div>
-
-<!-- PRINT CLIENT SUMMARY -->
-<div class="print-client" style="display:none;margin-bottom:12px">
-  <div class="g3">
-    <div class="fld"><label id="lbl-users-p">Nombre d'utilisateurs</label><div class="fld-val" id="pv-users">—</div></div>
-    <div class="fld"><label id="lbl-service-p">Produit</label><div class="fld-val" id="pv-service">—</div></div>
-    <div class="fld"><label id="lbl-hourly-p">Coût horaire</label><div class="fld-val" id="pv-hourly">—</div></div>
-  </div>
-</div>
-
-<!-- PRINT FOOTER -->
-<div class="print-footer" style="display:none;position:fixed;bottom:0;left:0;right:0;padding:.4cm 2cm;border-top:1px solid rgba(6,25,71,0.15);background:#fff;align-items:center;gap:1.5rem">
-  <div style="flex:0 0 auto">
-    <img src="https://axxun.ch/wp-content/uploads/logo-monday-partner.png" style="height:28px;width:auto">
-  </div>
-  <div style="flex:1;font-size:7.5px;color:rgba(6,25,71,0.45);line-height:1.5" id="print-disclaimer"></div>
-</div>
+<!-- HEADER -->
 <div class="hdr">
   <div>
     <div class="hdr-title">ROI Calculator <span style="color:var(--teal)">·</span> monday.com</div>
@@ -154,7 +72,7 @@ input:focus,select:focus{border-color:var(--teal)}
   <div class="hdr-right">
     <button class="lbtn on" id="btn-fr">FR</button>
     <button class="lbtn" id="btn-en">EN</button>
-    <button class="pbtn no-print" id="print-btn">
+    <button class="pbtn" id="print-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
       <span id="lbl-print">Imprimer</span>
     </button>
@@ -165,20 +83,14 @@ input:focus,select:focus{border-color:var(--teal)}
 <div id="panel" class="hidden">
   <div class="sec-lbl">Prix licences monday.com <span class="tag">€ / user / mois</span></div>
   <div class="card"><div class="g4" id="lic-inputs"></div></div>
-
   <div class="sec-lbl" id="lbl-fx">Taux de change</div>
   <div class="card">
     <div class="g2">
-      <div class="fld">
-        <label id="lbl-fxrate">1 € = x CHF</label>
-        <input type="number" id="fx" value="0.97" step="0.001" min="0.01">
-      </div>
+      <div class="fld"><label id="lbl-fxrate">1 € = x CHF</label><input type="number" id="fx" value="0.97" step="0.001" min="0.01"></div>
     </div>
   </div>
-
   <div class="sec-lbl" id="lbl-adopt-title">Paliers d'adoption <span class="tag" id="lbl-adopt-unit">jours / utilisateur</span></div>
   <div class="card"><div class="g4" id="adopt-inputs"></div></div>
-
   <div class="sec-lbl" id="lbl-gain-title">Paliers de gains de temps <span class="tag" id="lbl-gain-unit">heures / user / semaine</span></div>
   <div class="card">
     <div class="g5" id="gain-inputs"></div>
@@ -189,7 +101,6 @@ input:focus,select:focus{border-color:var(--teal)}
       </div>
     </div>
   </div>
-
   <div style="margin-top:1.2rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:14px">
     <button id="save-btn" style="padding:10px 30px;background:var(--teal);color:var(--navy);border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer">Enregistrer</button>
     <span id="save-msg" style="font-size:13px;color:#067A85;opacity:0;transition:opacity .4s"></span>
@@ -201,22 +112,12 @@ input:focus,select:focus{border-color:var(--teal)}
 <div id="calc-sections">
   <div class="card" style="margin-top:.25rem">
     <div class="g3">
-      <div class="fld">
-        <label id="lbl-users">Nombre d'utilisateurs</label>
-        <input type="number" id="users" value="0" min="0">
-      </div>
-      <div class="fld">
-        <label id="lbl-service">Produit</label>
-        <select id="service"></select>
-      </div>
-      <div class="fld">
-        <label id="lbl-hourly">Coût horaire interne (CHF/h)</label>
-        <input type="number" id="hourly" value="45" min="0">
-      </div>
+      <div class="fld"><label id="lbl-users">Nombre d'utilisateurs</label><input type="number" id="users" value="0" min="0"></div>
+      <div class="fld"><label id="lbl-service">Produit</label><select id="service"></select></div>
+      <div class="fld"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><input type="number" id="hourly" value="45" min="0"></div>
     </div>
   </div>
 
-  <!-- COSTS -->
   <div class="sec-lbl" id="lbl-s2">Coûts</div>
   <div class="tbl">
     <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
@@ -264,7 +165,6 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
-  <!-- GAINS -->
   <div class="sec-lbl" id="lbl-s3">Gains</div>
   <div class="tbl">
     <div class="trow thead" style="grid-template-columns:1fr 170px 170px">
@@ -297,24 +197,11 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
   </div>
 
-  <!-- ROI -->
   <div class="sec-lbl" id="lbl-s4">Résultat ROI</div>
   <div class="roi-grid">
-    <div class="roi-card" id="rc1">
-      <div class="roi-lbl" id="lbl-rc1">Année 1</div>
-      <div class="roi-val" id="rv1">—</div>
-      <div class="roi-pct" id="rp1">—</div>
-    </div>
-    <div class="roi-card" id="rc2">
-      <div class="roi-lbl" id="lbl-rc2">Année 2</div>
-      <div class="roi-val" id="rv2">—</div>
-      <div class="roi-pct" id="rp2">—</div>
-    </div>
-    <div class="roi-card" id="rcC">
-      <div class="roi-lbl" id="lbl-rcC">ROI cumulé 2 ans</div>
-      <div class="roi-val" id="rvC">—</div>
-      <div class="roi-pct" id="rpC">—</div>
-    </div>
+    <div class="roi-card" id="rc1"><div class="roi-lbl" id="lbl-rc1">Année 1</div><div class="roi-val" id="rv1">—</div><div class="roi-pct" id="rp1">—</div></div>
+    <div class="roi-card" id="rc2"><div class="roi-lbl" id="lbl-rc2">Année 2</div><div class="roi-val" id="rv2">—</div><div class="roi-pct" id="rp2">—</div></div>
+    <div class="roi-card" id="rcC"><div class="roi-lbl" id="lbl-rcC">ROI cumulé 2 ans</div><div class="roi-val" id="rvC">—</div><div class="roi-pct" id="rpC">—</div></div>
   </div>
 </div>
 </div>
@@ -324,412 +211,379 @@ var lang = 'fr';
 
 var DN_ADOPT_FR = [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}];
 var DN_ADOPT_EN = [{name:'Ninja!',val:2},{name:'Enthusiasts',val:3},{name:'Classic',val:4},{name:'Resistant',val:6}];
-var DN_GAIN     = [{name:'Very low',val:1},{name:'Low',val:2},{name:'Medium',val:4},{name:'High',val:6},{name:'Ninja!',val:8}];
 
 var P = {
   prices: {wm:52,crm:65,dev:35,service:71},
-  fx: 0.97, weeks: 46,
+  fx:0.97, weeks:46,
   adopt: [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}],
   gain:  [{name:'Very low',val:1},{name:'Low',val:2},{name:'Medium',val:4},{name:'High',val:6},{name:'Ninja!',val:8}]
 };
 
 var TR_FR = {
-  fx:'Taux de change', fxrate:'1 € = x CHF', weeks:'Semaines travaillées / an',
-  adoptTitle:'Paliers d\'adoption', adoptUnit:'jours / utilisateur',
-  gainTitle:'Paliers de gains de temps', gainUnit:'heures / user / semaine',
-  save:'Enregistrer', saved:'✓ Paramètres enregistrés',
-  s2:'Coûts', s3:'Gains', s4:'Résultat ROI',
-  users:'Nombre d\'utilisateurs', service:'Produit', hourly:'Coût horaire interne (CHF/h)',
-  yr1:'Année 1', yr2:'Année 2', th:'Poste',
-  clic:'Licences', discount:'Remise', csvc:'Services Axxun',
-  cadopt:'Coût d\'adoption', palier:'Palier :', tcosts:'Total coûts',
+  fx:'Taux de change',fxrate:'1 € = x CHF',weeks:'Semaines travaillées / an',
+  adoptTitle:"Paliers d'adoption",adoptUnit:'jours / utilisateur',
+  gainTitle:'Paliers de gains de temps',gainUnit:'heures / user / semaine',
+  save:'Enregistrer',saved:'✓ Paramètres enregistrés',
+  s2:'Coûts',s3:'Gains',s4:'Résultat ROI',
+  users:"Nombre d'utilisateurs",service:'Produit',hourly:'Coût horaire interne (CHF/h)',
+  yr1:'Année 1',yr2:'Année 2',th:'Poste',
+  clic:'Licences',discount:'Remise',csvc:'Services Axxun',
+  cadopt:"Coût d'adoption",palier:'Palier :',tcosts:'Total coûts',
   gpalier:'Temps gagné / collaborateur / semaine',
-  gval:'Valeur totale des heures économisées', tgains:'Total gains',
+  gval:'Valeur totale des heures économisées',tgains:'Total gains',
   rcum:'ROI cumulé 2 ans',
-  svcs: ['Work Management','CRM','Dev','Service']
+  svcs:['Work Management','CRM','Dev','Service']
 };
 var TR_EN = {
-  fx:'Exchange rate', fxrate:'1 € = x CHF', weeks:'Working weeks / year',
-  adoptTitle:'Adoption tiers', adoptUnit:'days / user',
-  gainTitle:'Time-saved tiers', gainUnit:'hours / user / week',
-  save:'Save', saved:'✓ Settings saved',
-  s2:'Costs', s3:'Gains', s4:'ROI Result',
-  users:'Number of users', service:'Product', hourly:'Internal hourly rate (CHF/h)',
-  yr1:'Year 1', yr2:'Year 2', th:'Item',
-  clic:'Licenses', discount:'Discount', csvc:'Axxun services',
-  cadopt:'Adoption cost', palier:'Tier:', tcosts:'Total costs',
+  fx:'Exchange rate',fxrate:'1 € = x CHF',weeks:'Working weeks / year',
+  adoptTitle:'Adoption tiers',adoptUnit:'days / user',
+  gainTitle:'Time-saved tiers',gainUnit:'hours / user / week',
+  save:'Save',saved:'✓ Settings saved',
+  s2:'Costs',s3:'Gains',s4:'ROI Result',
+  users:'Number of users',service:'Product',hourly:'Internal hourly rate (CHF/h)',
+  yr1:'Year 1',yr2:'Year 2',th:'Item',
+  clic:'Licenses',discount:'Discount',csvc:'Axxun services',
+  cadopt:'Adoption cost',palier:'Tier:',tcosts:'Total costs',
   gpalier:'Time saved / collaborator / week',
-  gval:'Total value of saved hours', tgains:'Total gains',
+  gval:'Total value of saved hours',tgains:'Total gains',
   rcum:'Cumulative 2-year ROI',
-  svcs: ['Work Management','CRM','Dev','Service']
+  svcs:['Work Management','CRM','Dev','Service']
 };
 
 function t() { return lang === 'fr' ? TR_FR : TR_EN; }
 function el(id) { return document.getElementById(id); }
-function set(id, html) { var e = el(id); if (e) e.innerHTML = html; }
-function txt(id, v) { var e = el(id); if (e) e.textContent = v; }
+function set(id,html) { var e=el(id); if(e) e.innerHTML=html; }
+function txt(id,v) { var e=el(id); if(e) e.textContent=v; }
 
 function fmtN(n) {
-  var abs = Math.round(Math.abs(n));
-  var s = abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
-  return (n < 0 ? '− ' : '') + 'Chf\u00a0' + s;
+  var abs=Math.round(Math.abs(n));
+  var s=abs.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u2009');
+  return (n<0?'− ':'')+('Chf\u00a0')+s;
 }
-function fmtH(n) {
-  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') + ' h';
-}
+function fmtH(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u2009')+' h'; }
 
 function applyT() {
-  var tr = t();
-  txt('lbl-fx', tr.fx); txt('lbl-fxrate', tr.fxrate); txt('lbl-weeks', tr.weeks);
-  txt('lbl-adopt-title', tr.adoptTitle); txt('lbl-adopt-unit', tr.adoptUnit);
-  txt('lbl-gain-title', tr.gainTitle); txt('lbl-gain-unit', tr.gainUnit);
-  txt('save-btn', tr.save);
-  txt('lbl-s2', tr.s2); txt('lbl-s3', tr.s3); txt('lbl-s4', tr.s4);
-  txt('lbl-users', tr.users); txt('lbl-service', tr.service); txt('lbl-hourly', tr.hourly);
-  txt('lbl-th', tr.th); txt('lbl-th-yr1', tr.yr1); txt('lbl-th-yr2', tr.yr2);
-  txt('lbl-th2', tr.th); txt('lbl-th-yr1b', tr.yr1); txt('lbl-th-yr2b', tr.yr2);
-  txt('lbl-clic', tr.clic); txt('lbl-discount', tr.discount);
-  txt('lbl-csvc', tr.csvc); txt('lbl-cadopt', tr.cadopt); txt('lbl-palier', tr.palier);
-  txt('lbl-tcosts', tr.tcosts);
-  txt('lbl-gpalier', tr.gpalier); txt('lbl-gval', tr.gval); txt('lbl-tgains', tr.tgains);
-  txt('lbl-gyr1', tr.yr1 + ' :'); txt('lbl-gyr2', tr.yr2 + ' :');
-  txt('lbl-rc1', tr.yr1); txt('lbl-rc2', tr.yr2); txt('lbl-rcC', tr.rcum);
-  txt('lbl-print', lang === 'fr' ? 'Imprimer' : 'Print');
-  txt('print-disclaimer', lang === 'fr'
-    ? 'Ce document est fourni à titre informatif uniquement. Les estimations présentées sont basées sur des hypothèses et des moyennes sectorielles. Elles ne constituent pas une garantie de résultats. Les gains de productivité réels dépendent de nombreux facteurs propres à chaque organisation, notamment le niveau d\'adoption, la qualité de l\'implémentation et les processus internes. Axxun Evalua Sàrl décline toute responsabilité quant aux décisions prises sur la base de ce document.'
-    : 'This document is provided for informational purposes only. The estimates presented are based on assumptions and industry averages. They do not constitute a guarantee of results. Actual productivity gains depend on many factors specific to each organisation, including adoption level, implementation quality and internal processes. Axxun Evalua Sàrl disclaims all liability for decisions made on the basis of this document.'
-  );
+  var tr=t();
+  txt('lbl-fx',tr.fx); txt('lbl-fxrate',tr.fxrate); txt('lbl-weeks',tr.weeks);
+  txt('lbl-adopt-title',tr.adoptTitle); txt('lbl-adopt-unit',tr.adoptUnit);
+  txt('lbl-gain-title',tr.gainTitle); txt('lbl-gain-unit',tr.gainUnit);
+  txt('save-btn',tr.save);
+  txt('lbl-s2',tr.s2); txt('lbl-s3',tr.s3); txt('lbl-s4',tr.s4);
+  txt('lbl-users',tr.users); txt('lbl-service',tr.service); txt('lbl-hourly',tr.hourly);
+  txt('lbl-th',tr.th); txt('lbl-th-yr1',tr.yr1); txt('lbl-th-yr2',tr.yr2);
+  txt('lbl-th2',tr.th); txt('lbl-th-yr1b',tr.yr1); txt('lbl-th-yr2b',tr.yr2);
+  txt('lbl-clic',tr.clic); txt('lbl-discount',tr.discount);
+  txt('lbl-csvc',tr.csvc); txt('lbl-cadopt',tr.cadopt); txt('lbl-palier',tr.palier);
+  txt('lbl-tcosts',tr.tcosts);
+  txt('lbl-gpalier',tr.gpalier); txt('lbl-gval',tr.gval); txt('lbl-tgains',tr.tgains);
+  txt('lbl-gyr1',tr.yr1+' :'); txt('lbl-gyr2',tr.yr2+' :');
+  txt('lbl-rc1',tr.yr1); txt('lbl-rc2',tr.yr2); txt('lbl-rcC',tr.rcum);
+  txt('lbl-print',lang==='fr'?'Imprimer':'Print');
 }
 
 function buildSvcCells() {
-  var items = [['svc1-cell','svc1',0],['svc2-cell','svc2',0]];
+  var items=[['svc1-cell','svc1',0],['svc2-cell','svc2',0]];
   items.forEach(function(a) {
-    var cell = el(a[0]);
-    cell.innerHTML = '<div style="display:flex;align-items:center;width:100%;height:100%">'
-      + '<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
-      + '<input type="text" inputmode="numeric" id="' + a[1] + '" value="' + a[2] + '" placeholder="0"'
-      + ' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0">'
-      + '</div>'
-      + '<span class="svc-print no-screen" id="' + a[1] + '-print" style="display:none"></span>';
-    var inp = el(a[1]);
-    inp.addEventListener('input', function() {
-      var raw = this.value.replace(/[\s\u2009]/g, '').replace(/[^0-9]/g, '');
-      var num = parseInt(raw) || 0;
-      this.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+    var cell=el(a[0]);
+    cell.innerHTML='<div style="display:flex;align-items:center;width:100%;height:100%">'
+      +'<span style="padding:0 6px 0 16px;font-size:13px;color:var(--muted);white-space:nowrap">Chf</span>'
+      +'<input type="text" inputmode="numeric" id="'+a[1]+'" value="'+a[2]+'" placeholder="0"'
+      +' style="flex:1;border:none;background:transparent;outline:none;text-align:right;font-size:14px;color:var(--navy);padding:12px 16px 12px 0">'
+      +'</div>';
+    var inp=el(a[1]);
+    inp.addEventListener('input',function() {
+      var raw=this.value.replace(/[\s\u2009]/g,'').replace(/[^0-9]/g,'');
+      var num=parseInt(raw)||0;
+      this.value=num>0?num.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u2009'):'';
       calc();
     });
-    inp.addEventListener('focus', function() {
-      var raw = parseInt(this.value.replace(/[\s\u2009]/g, '')) || 0;
-      this.value = raw > 0 ? String(raw) : '';
+    inp.addEventListener('focus',function() {
+      var raw=parseInt(this.value.replace(/[\s\u2009]/g,''))||0;
+      this.value=raw>0?String(raw):'';
     });
-    inp.addEventListener('blur', function() {
-      var raw = parseInt(this.value.replace(/[\s\u2009]/g, '')) || 0;
-      this.value = raw > 0 ? raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : '';
+    inp.addEventListener('blur',function() {
+      var raw=parseInt(this.value.replace(/[\s\u2009]/g,''))||0;
+      this.value=raw>0?raw.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u2009'):'';
     });
   });
 }
 
 function buildParamInputs() {
-  var tr = t();
-  var svcs = ['wm','crm','dev','service'];
-  var lc = el('lic-inputs'); lc.innerHTML = '';
-  svcs.forEach(function(k, i) {
-    lc.innerHTML += '<div class="pbox"><div class="pbox-name">' + tr.svcs[i] + '</div>'
-      + '<input type="number" value="' + P.prices[k] + '" min="0" step="0.01"'
-      + ' oninput="P.prices[\'' + k + '\']=parseFloat(this.value)||0"></div>';
+  var tr=t();
+  var svcs=['wm','crm','dev','service'];
+  var lc=el('lic-inputs'); lc.innerHTML='';
+  svcs.forEach(function(k,i) {
+    lc.innerHTML+='<div class="pbox"><div class="pbox-name">'+tr.svcs[i]+'</div>'
+      +'<input type="number" value="'+P.prices[k]+'" min="0" step="0.01"'
+      +' oninput="P.prices[\''+k+'\']=parseFloat(this.value)||0"></div>';
   });
-  var ac = el('adopt-inputs'); ac.innerHTML = '';
-  P.adopt.forEach(function(a, i) {
-    ac.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
-      + '<input type="text" value="' + a.name + '" oninput="P.adopt[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
-      + '<input type="number" value="' + a.val + '" min="0" step="0.5"'
-      + ' oninput="P.adopt[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
-      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + tr.adoptUnit + '</div></div>';
+  var ac=el('adopt-inputs'); ac.innerHTML='';
+  P.adopt.forEach(function(a,i) {
+    ac.innerHTML+='<div class="pbox"><div class="pbox-name">Palier '+(i+1)+'</div>'
+      +'<input type="text" value="'+a.name+'" oninput="P.adopt['+i+'].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      +'<input type="number" value="'+a.val+'" min="0" step="0.5"'
+      +' oninput="P.adopt['+i+'].val=parseFloat(this.value)||0;buildSelects()">'
+      +'<div style="font-size:11px;color:var(--subtle);margin-top:5px">'+tr.adoptUnit+'</div></div>';
   });
-  var gc = el('gain-inputs'); gc.innerHTML = '';
-  P.gain.forEach(function(g, i) {
-    gc.innerHTML += '<div class="pbox"><div class="pbox-name">Palier ' + (i+1) + '</div>'
-      + '<input type="text" value="' + g.name + '" oninput="P.gain[' + i + '].name=this.value;buildSelects()" style="margin-bottom:7px">'
-      + '<input type="number" value="' + g.val + '" min="0" step="0.5"'
-      + ' oninput="P.gain[' + i + '].val=parseFloat(this.value)||0;buildSelects()">'
-      + '<div style="font-size:11px;color:var(--subtle);margin-top:5px">' + tr.gainUnit + '</div></div>';
+  var gc=el('gain-inputs'); gc.innerHTML='';
+  P.gain.forEach(function(g,i) {
+    gc.innerHTML+='<div class="pbox"><div class="pbox-name">Palier '+(i+1)+'</div>'
+      +'<input type="text" value="'+g.name+'" oninput="P.gain['+i+'].name=this.value;buildSelects()" style="margin-bottom:7px">'
+      +'<input type="number" value="'+g.val+'" min="0" step="0.5"'
+      +' oninput="P.gain['+i+'].val=parseFloat(this.value)||0;buildSelects()">'
+      +'<div style="font-size:11px;color:var(--subtle);margin-top:5px">'+tr.gainUnit+'</div></div>';
   });
-  el('fx').value = P.fx;
-  el('weeks').value = P.weeks;
+  el('fx').value=P.fx;
+  el('weeks').value=P.weeks;
 }
 
 function buildSelects() {
-  var tr = t();
-  var svcs = ['wm','crm','dev','service'];
-  var sm = el('service');
-  var sv = sm.value;
-  sm.innerHTML = '<option value="">—</option>'
-    + svcs.map(function(k,i){ return '<option value="' + k + '">' + tr.svcs[i] + '</option>'; }).join('');
-  if (sv) sm.value = sv;
+  var tr=t();
+  var svcs=['wm','crm','dev','service'];
+  var sm=el('service'); var sv=sm.value;
+  sm.innerHTML='<option value="">—</option>'
+    +svcs.map(function(k,i){ return '<option value="'+k+'">'+tr.svcs[i]+'</option>'; }).join('');
+  if(sv) sm.value=sv;
 
-  var as = el('adopt-sel');
-  var av = as.value;
-  as.innerHTML = '<option value="">—</option>' + P.adopt.map(function(a,i){ return '<option value="' + i + '">' + a.name + '</option>'; }).join('');
-  as.value = (av !== '') ? av : '';
+  var as=el('adopt-sel'); var av=as.value;
+  as.innerHTML='<option value="">—</option>'
+    +P.adopt.map(function(a,i){ return '<option value="'+i+'">'+a.name+'</option>'; }).join('');
+  if(av!=='') as.value=av;
 
-  var gs = ['gain-sel-1','gain-sel-2'];
-  var gd = ['1','2'];
-  gs.forEach(function(id, yi) {
-    var e = el(id);
-    var pv = e.value;
-    e.innerHTML = P.gain.map(function(g,i){ return '<option value="' + i + '">' + g.name + ' (' + g.val + 'h)</option>'; }).join('');
-    e.value = (pv !== '') ? pv : gd[yi];
+  var gd=['1','2'];
+  ['gain-sel-1','gain-sel-2'].forEach(function(id,yi) {
+    var e=el(id); var pv=e.value;
+    e.innerHTML=P.gain.map(function(g,i){ return '<option value="'+i+'">'+g.name+' ('+g.val+'h)</option>'; }).join('');
+    e.value=(pv!=='')?pv:gd[yi];
   });
 }
 
 function saveParams() {
-  P.fx = parseFloat(el('fx').value) || 0.97;
-  P.weeks = parseInt(el('weeks').value) || 46;
-  try { localStorage.setItem('roi_params', JSON.stringify(P)); } catch(e) {}
+  P.fx=parseFloat(el('fx').value)||0.97;
+  P.weeks=parseInt(el('weeks').value)||46;
+  try { localStorage.setItem('roi_params',JSON.stringify(P)); } catch(e) {}
   calc();
-  var msg = el('save-msg');
-  msg.textContent = t().saved;
-  msg.style.opacity = '1';
-  setTimeout(function() { msg.style.opacity = '0'; }, 2500);
+  var msg=el('save-msg');
+  msg.textContent=t().saved;
+  msg.style.opacity='1';
+  setTimeout(function(){ msg.style.opacity='0'; },2500);
 }
 
 function setLang(l) {
-  var prev = lang;
-  lang = l;
-  el('btn-fr').classList.toggle('on', l === 'fr');
-  el('btn-en').classList.toggle('on', l === 'en');
-  if (prev !== l) {
-    var fromAdopt = prev === 'fr' ? DN_ADOPT_FR : DN_ADOPT_EN;
-    var toAdopt   = l   === 'fr' ? DN_ADOPT_FR : DN_ADOPT_EN;
-    P.adopt.forEach(function(a, i) {
-      if (i < fromAdopt.length && a.name === fromAdopt[i].name) a.name = toAdopt[i].name;
-    });
+  var prev=lang; lang=l;
+  el('btn-fr').classList.toggle('on',l==='fr');
+  el('btn-en').classList.toggle('on',l==='en');
+  if(prev!==l) {
+    var fromA=prev==='fr'?DN_ADOPT_FR:DN_ADOPT_EN;
+    var toA=l==='fr'?DN_ADOPT_FR:DN_ADOPT_EN;
+    P.adopt.forEach(function(a,i){ if(i<fromA.length&&a.name===fromA[i].name) a.name=toA[i].name; });
   }
   applyT(); buildSelects(); buildParamInputs(); calc();
 }
 
 function togglePanel() {
-  var p = el('panel');
-  var cs = el('calc-sections');
-  var hidden = p.classList.toggle('hidden');
-  cs.classList.toggle('hidden', !hidden);
+  var p=el('panel'); var cs=el('calc-sections');
+  var hidden=p.classList.toggle('hidden');
+  cs.classList.toggle('hidden',!hidden);
 }
 
 function calc() {
-  var users    = parseInt(el('users').value) || 0;
-  var hourly   = parseFloat(el('hourly').value) || 0;
-  var svcKey   = el('service').value;
-  var priceEur = svcKey ? (P.prices[svcKey] || 0) : 0;
-  var discount = parseFloat(el('discount').value) || 0;
-  var svc1El = el('svc1'), svc2El = el('svc2');
-  var svc1 = svc1El ? (parseInt(svc1El.value.replace(/[\s\u2009]/g,'')) || 0) : 0;
-  var svc2 = svc2El ? (parseInt(svc2El.value.replace(/[\s\u2009]/g,'')) || 0) : 0;
-  var sp1 = el('svc1-print'); if (sp1) sp1.textContent = fmtN(svc1);
-  var sp2 = el('svc2-print'); if (sp2) sp2.textContent = fmtN(svc2);
+  var users=parseInt(el('users').value)||0;
+  var hourly=parseFloat(el('hourly').value)||0;
+  var svcKey=el('service').value;
+  var priceEur=svcKey?(P.prices[svcKey]||0):0;
+  var discount=parseFloat(el('discount').value)||0;
+  var svc1El=el('svc1'); var svc2El=el('svc2');
+  var svc1=svc1El?(parseInt(svc1El.value.replace(/[\s\u2009]/g,''))||0):0;
+  var svc2=svc2El?(parseInt(svc2El.value.replace(/[\s\u2009]/g,''))||0):0;
 
-  var licEurFull  = users * priceEur * 12;
-  var licChfFull  = licEurFull * P.fx;
-  var discountChf = licChfFull * (discount / 100);
-  var licChf      = licChfFull - discountChf;
+  var licEurFull=users*priceEur*12;
+  var licChfFull=licEurFull*P.fx;
+  var discountChf=licChfFull*(discount/100);
+  var licChf=licChfFull-discountChf;
 
-  txt('lic-detail', users + ' users × ' + priceEur + ' €/mois × 12 → ' + fmtN(licChfFull));
-  var discHtml = discount > 0 ? '<span style="font-size:12px;color:var(--muted);font-weight:400;line-height:1.2;margin-top:2px;display:block">− ' + fmtN(discountChf) + '</span>' : '';
-  set('c-lic-y1', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
-  set('c-lic-y2', '<span style="font-weight:500">' + fmtN(licChf) + '</span>' + discHtml);
+  txt('lic-detail',users+' users × '+priceEur+' €/mois × 12 → '+fmtN(licChfFull));
+  var discHtml=discount>0?'<span style="font-size:12px;color:var(--muted);font-weight:400;line-height:1.2;margin-top:2px;display:block">− '+fmtN(discountChf)+'</span>':'';
+  set('c-lic-y1','<span style="font-weight:500">'+fmtN(licChf)+'</span>'+discHtml);
+  set('c-lic-y2','<span style="font-weight:500">'+fmtN(licChf)+'</span>'+discHtml);
 
-  var adoptIdx  = el('adopt-sel').value !== '' ? parseInt(el('adopt-sel').value) : -1;
-  var adoptCost = 0;
-  var adoptName = '—';
-  if (adoptIdx >= 0 && P.adopt[adoptIdx]) {
-    var adoptTier = P.adopt[adoptIdx];
-    adoptCost = users * adoptTier.val * 8 * hourly;
-    adoptName = adoptTier.name + ' : ' + adoptTier.val + ' j/user × 8h × ' + users + ' users';
+  var adoptIdx=el('adopt-sel').value!==''?parseInt(el('adopt-sel').value):-1;
+  var adoptCost=0; var adoptName='—';
+  if(adoptIdx>=0&&P.adopt[adoptIdx]) {
+    var at=P.adopt[adoptIdx];
+    adoptCost=users*at.val*8*hourly;
+    adoptName=at.name+' : '+at.val+' j/user × 8h × '+users+' users';
   }
-  txt('adopt-detail', adoptName);
-  set('c-adopt-y1', fmtN(adoptCost));
-  set('c-adopt-y2', fmtN(adoptCost));
+  txt('adopt-detail',adoptName);
+  set('c-adopt-y1',fmtN(adoptCost)); set('c-adopt-y2',fmtN(adoptCost));
 
-  var tc1 = licChf + svc1 + adoptCost;
-  var tc2 = licChf + svc2 + adoptCost;
-  set('tc1', fmtN(tc1)); set('tc2', fmtN(tc2));
+  var tc1=licChf+svc1+adoptCost;
+  var tc2=licChf+svc2+adoptCost;
+  set('tc1',fmtN(tc1)); set('tc2',fmtN(tc2));
 
-  var gi1    = parseInt(el('gain-sel-1').value) || 0;
-  var gi2    = parseInt(el('gain-sel-2').value) || 0;
-  var totalH1 = P.gain[gi1].val * P.weeks * users;
-  var totalH2 = P.gain[gi2].val * P.weeks * users;
-  var gChf1   = totalH1 * hourly;
-  var gChf2   = totalH2 * hourly;
+  var gi1=parseInt(el('gain-sel-1').value)||0;
+  var gi2=parseInt(el('gain-sel-2').value)||0;
+  var totalH1=P.gain[gi1].val*P.weeks*users;
+  var totalH2=P.gain[gi2].val*P.weeks*users;
+  var gChf1=totalH1*hourly;
+  var gChf2=totalH2*hourly;
 
-  set('g-h1', fmtH(totalH1)); set('g-h2', fmtH(totalH2));
-  set('g-chf1', fmtN(gChf1)); set('g-chf2', fmtN(gChf2));
-  set('tg1', fmtN(gChf1)); set('tg2', fmtN(gChf2));
+  set('g-h1',fmtH(totalH1)); set('g-h2',fmtH(totalH2));
+  set('g-chf1',fmtN(gChf1)); set('g-chf2',fmtN(gChf2));
+  set('tg1',fmtN(gChf1)); set('tg2',fmtN(gChf2));
 
-  var roi1 = gChf1 - tc1, roi2 = gChf2 - tc2, roiC = roi1 + roi2;
-  var rp1  = tc1 > 0 ? roi1/tc1*100 : 0;
-  var rp2  = tc2 > 0 ? roi2/tc2*100 : 0;
-  var rpC  = (tc1+tc2) > 0 ? roiC/(tc1+tc2)*100 : 0;
-  setROI('rc1','rv1','rp1', roi1, rp1);
-  setROI('rc2','rv2','rp2', roi2, rp2);
-  setROI('rcC','rvC','rpC', roiC, rpC);
+  var roi1=gChf1-tc1, roi2=gChf2-tc2, roiC=roi1+roi2;
+  var rp1=tc1>0?roi1/tc1*100:0;
+  var rp2=tc2>0?roi2/tc2*100:0;
+  var rpC=(tc1+tc2)>0?roiC/(tc1+tc2)*100:0;
+  setROI('rc1','rv1','rp1',roi1,rp1);
+  setROI('rc2','rv2','rp2',roi2,rp2);
+  setROI('rcC','rvC','rpC',roiC,rpC);
 }
 
-function setROI(cid, vid, pid, val, pct) {
-  var c = el(cid);
-  c.className = 'roi-card' + (val > 0 ? ' pos' : val < 0 ? ' neg' : '');
-  set(vid, fmtN(val));
-  set(pid, (pct >= 0 ? '+' : '') + Math.round(pct) + '%');
+function setROI(cid,vid,pid,val,pct) {
+  var c=el(cid);
+  c.className='roi-card'+(val>0?' pos':val<0?' neg':'');
+  set(vid,fmtN(val));
+  set(pid,(pct>=0?'+':'')+Math.round(pct)+'%');
+}
+
+function roiCardHtml(cid,val,pct,lbl) {
+  var cls=el(cid)?el(cid).className.replace('roi-card','').trim():'';
+  return '<div class="roi-card '+cls+'"><div class="roi-lbl">'+lbl+'</div><div class="roi-val">'+val+'</div><div class="roi-pct">'+pct+'</div></div>';
+}
+
+function doPrint() {
+  var tr=t();
+  var svcs=['wm','crm','dev','service'];
+  var svcKey=el('service').value;
+  var svcIdx=svcs.indexOf(svcKey);
+  var svcName=svcIdx>=0?tr.svcs[svcIdx]:'—';
+  var users=el('users').value||'0';
+  var hourly=el('hourly').value||'0';
+  var date=new Date().toLocaleDateString(lang==='fr'?'fr-CH':'en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  var disc=lang==='fr'
+    ?"Ce document est fourni à titre informatif uniquement. Les estimations présentées sont basées sur des hypothèses et des moyennes sectorielles. Elles ne constituent pas une garantie de résultats. Les gains de productivité réels dépendent de nombreux facteurs propres à chaque organisation, notamment le niveau d'adoption, la qualité de l'implémentation et les processus internes. Axxun Evalua Sàrl décline toute responsabilité quant aux décisions prises sur la base de ce document."
+    :"This document is provided for informational purposes only. The estimates presented are based on assumptions and industry averages. They do not constitute a guarantee of results. Actual productivity gains depend on many factors specific to each organisation, including adoption level, implementation quality and internal processes. Axxun Evalua Sàrl disclaims all liability for decisions made on the basis of this document.";
+
+  function r(id) { var e=el(id); return e?e.innerHTML:'—'; }
+
+  var adoptSel=el('adopt-sel');
+  var adoptText=adoptSel&&adoptSel.value!==''?adoptSel.options[adoptSel.selectedIndex].text:'—';
+  var g1Sel=el('gain-sel-1');
+  var g2Sel=el('gain-sel-2');
+  var g1Text=g1Sel?g1Sel.options[g1Sel.selectedIndex].text:'—';
+  var g2Text=g2Sel?g2Sel.options[g2Sel.selectedIndex].text:'—';
+  var svc1El=el('svc1'); var svc2El=el('svc2');
+  var svc1Val=svc1El?fmtN(parseInt(svc1El.value.replace(/[\s\u2009]/g,''))||0):fmtN(0);
+  var svc2Val=svc2El?fmtN(parseInt(svc2El.value.replace(/[\s\u2009]/g,''))||0):fmtN(0);
+  var discountVal=parseFloat(el('discount').value)||0;
+  var licLabel=tr.clic+(discountVal>0?' ('+discountVal+'% '+(lang==='fr'?'de remise':'discount')+')':'');
+  var adoptIdx2=el('adopt-sel').value!==''?parseInt(el('adopt-sel').value):-1;
+  var adoptLabel=adoptIdx2>=0&&P.adopt[adoptIdx2]
+    ?adoptText+' ('+P.adopt[adoptIdx2].val+' '+(lang==='fr'?'j/user':'d/user')+')'
+    :'—';
+  var yr1L=lang==='fr'?'Année 1':'Year 1';
+  var yr2L=lang==='fr'?'Année 2':'Year 2';
+  var gainLabel=tr.gpalier+'<br><small>'+yr1L+': '+g1Text+' / '+yr2L+': '+g2Text+'</small>';
+
+  var css=''
+    +'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#061947;font-size:11px;margin:0;padding:2cm 2cm 0.5cm}'
+    +'h1{font-size:15px;font-weight:700;margin:0}'
+    +'.hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;margin-bottom:28px}'
+    +'.hdr-right{text-align:right}'
+    +'.date{font-size:9px;color:rgba(6,25,71,0.5);margin-top:4px}'
+    +'.client-row{display:flex;justify-content:space-between;gap:32px;margin-bottom:56px;padding-bottom:14px;border-bottom:1px solid rgba(6,25,71,0.1)}'
+    +'.client-item label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(6,25,71,0.4);display:block;margin-bottom:3px}'
+    +'.client-item .val{font-size:13px;font-weight:600}'
+    +'.sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(6,25,71,0.4);margin:0 0 6px}'
+    +'.sec-wrap{margin-bottom:56px}'
+    +'table{width:100%;border-collapse:collapse}'
+    +'thead tr{background:#EEF2FA}'
+    +'th{padding:8px 14px;font-size:9px;font-weight:700;color:rgba(6,25,71,0.45);text-transform:uppercase;letter-spacing:.07em;text-align:left}'
+    +'td{padding:9px 14px;font-size:11px;border-top:1px solid rgba(6,25,71,0.18)}'
+    +'td.r{text-align:right;width:3cm}'
+    +'tr.tot td{border-top:1px solid rgba(6,25,71,0.18);border-bottom:1px solid rgba(6,25,71,0.18);background:#EEF2FA;font-weight:700}'
+    +'small{font-size:9px;color:rgba(6,25,71,0.5)}'
+    +'.roi-grid{display:flex;gap:12px}'
+    +'.roi-card{flex:1;border:1px solid rgba(6,25,71,0.18);border-radius:4px;padding:14px 10px;text-align:center;border-top:3px solid rgba(6,25,71,0.15)}'
+    +'.roi-card.pos{border-top-color:#67DEEC}'
+    +'.roi-card.neg{border-top-color:#E05050}'
+    +'.roi-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(6,25,71,0.45);margin-bottom:8px}'
+    +'.roi-val{font-size:20px;font-weight:700}'
+    +'.roi-pct{font-size:11px;color:rgba(6,25,71,0.5);margin-top:3px}'
+    +'.footer{position:fixed;bottom:0;left:0;right:0;padding:.4cm 0;border-top:1px solid rgba(6,25,71,0.15);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:2rem}'
+    +'.disclaimer{font-size:7.5px;color:rgba(6,25,71,0.45);line-height:1.5;text-align:left;max-width:70%}'
+    +'@media print{@page{margin:2cm 2cm 0.5cm 2cm;size:A4}body{padding:0}}';
+
+  var body=''
+    +'<div class="hdr">'
+    +'<img src="https://axxun.ch/wp-content/uploads/Axxun-logo.png" style="height:22px;width:auto">'
+    +'<div class="hdr-right"><h1>ROI Calculator \u00b7 monday.com</h1><div class="date">'+date+'</div></div>'
+    +'</div>'
+    +'<div class="client-row">'
+    +'<div class="client-item"><label>'+tr.users+'</label><div class="val">'+users+'</div></div>'
+    +'<div class="client-item"><label>'+tr.service+'</label><div class="val">'+svcName+'</div></div>'
+    +'<div class="client-item"><label>'+tr.hourly+'</label><div class="val">Chf\u00a0'+hourly+'/h</div></div>'
+    +'</div>'
+    +'<div class="sec-wrap"><div class="sec">'+tr.s2+'</div>'
+    +'<table><thead><tr><th>'+tr.th+'</th><th style="text-align:right">'+tr.yr1+'</th><th style="text-align:right">'+tr.yr2+'</th></tr></thead><tbody>'
+    +'<tr><td>'+licLabel+'</td><td class="r">'+r('c-lic-y1')+'</td><td class="r">'+r('c-lic-y2')+'</td></tr>'
+    +'<tr><td>'+tr.csvc+'</td><td class="r">'+svc1Val+'</td><td class="r">'+svc2Val+'</td></tr>'
+    +'<tr><td>'+tr.cadopt+' \u2014 '+adoptLabel+'</td><td class="r">'+r('c-adopt-y1')+'</td><td class="r">'+r('c-adopt-y2')+'</td></tr>'
+    +'<tr class="tot"><td>'+tr.tcosts+'</td><td class="r">'+r('tc1')+'</td><td class="r">'+r('tc2')+'</td></tr>'
+    +'</tbody></table></div>'
+    +'<div class="sec-wrap"><div class="sec">'+tr.s3+'</div>'
+    +'<table><thead><tr><th>'+tr.th+'</th><th style="text-align:right">'+tr.yr1+'</th><th style="text-align:right">'+tr.yr2+'</th></tr></thead><tbody>'
+    +'<tr><td>'+gainLabel+'</td><td class="r">'+r('g-h1')+'</td><td class="r">'+r('g-h2')+'</td></tr>'
+    +'<tr><td>'+tr.gval+'</td><td class="r">'+r('g-chf1')+'</td><td class="r">'+r('g-chf2')+'</td></tr>'
+    +'<tr class="tot"><td>'+tr.tgains+'</td><td class="r">'+r('tg1')+'</td><td class="r">'+r('tg2')+'</td></tr>'
+    +'</tbody></table></div>'
+    +'<div class="sec-wrap"><div class="sec">'+tr.s4+'</div>'
+    +'<div class="roi-grid">'
+    +roiCardHtml('rc1',r('rv1'),r('rp1'),tr.yr1)
+    +roiCardHtml('rc2',r('rv2'),r('rp2'),tr.yr2)
+    +roiCardHtml('rcC',r('rvC'),r('rpC'),tr.rcum)
+    +'</div></div>'
+    +'<div class="footer">'
+    +'<img src="https://axxun.ch/wp-content/uploads/logo-monday-partner.png" style="height:28px;width:auto;flex-shrink:0">'
+    +'<div class="disclaimer">'+disc+'</div>'
+    +'</div>'
+    +'<scr'+'ipt>window.onload=function(){window.print();window.onafterprint=function(){window.close()};};<'+'/scr'+'ipt>';
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+css+'</style></head><body>'+body+'</body></html>';
+  var w=window.open('','_blank');
+  if(w){ w.document.write(html); w.document.close(); }
+  else { alert(lang==='fr'?'Autorisez les popups pour ce site':'Please allow popups for this site'); }
 }
 
 function loadParams() {
   try {
-    var stored = localStorage.getItem('roi_params');
-    if (stored) {
-      var saved = JSON.parse(stored);
-      if (saved.prices) P.prices = saved.prices;
-      if (saved.fx)     P.fx     = saved.fx;
-      if (saved.weeks)  P.weeks  = saved.weeks;
-      if (saved.adopt)  P.adopt  = saved.adopt;
-      if (saved.gain)   P.gain   = saved.gain;
+    var stored=localStorage.getItem('roi_params');
+    if(stored) {
+      var saved=JSON.parse(stored);
+      if(saved.prices) P.prices=saved.prices;
+      if(saved.fx) P.fx=saved.fx;
+      if(saved.weeks) P.weeks=saved.weeks;
+      if(saved.adopt) P.adopt=saved.adopt;
+      if(saved.gain) P.gain=saved.gain;
     }
   } catch(e) {}
-  buildParamInputs();
-  buildSvcCells();
-  buildSelects();
-  applyT();
-  calc();
+  buildParamInputs(); buildSvcCells(); buildSelects(); applyT(); calc();
 }
 
-el('print-btn').addEventListener('click', function() {
-  var tr = t();
-  var svcs = ['wm','crm','dev','service'];
-  var svcKey = el('service').value;
-  var svcIdx = svcs.indexOf(svcKey);
-  var svcName = svcIdx >= 0 ? tr.svcs[svcIdx] : '—';
-  var users = el('users').value || '0';
-  var hourly = el('hourly').value || '0';
-  var date = new Date().toLocaleDateString(lang === 'fr' ? 'fr-CH' : 'en-GB', {day:'2-digit',month:'long',year:'numeric'});
-
-  var disclaimer = lang === 'fr'
-    ? 'Ce document est fourni à titre informatif uniquement. Les estimations présentées sont basées sur des hypothèses et des moyennes sectorielles. Elles ne constituent pas une garantie de résultats. Les gains de productivité réels dépendent de nombreux facteurs propres à chaque organisation, notamment le niveau d\'adoption, la qualité de l\'implémentation et les processus internes. Axxun Evalua Sàrl décline toute responsabilité quant aux décisions prises sur la base de ce document.'
-    : 'This document is provided for informational purposes only. The estimates presented are based on assumptions and industry averages. They do not constitute a guarantee of results. Actual productivity gains depend on many factors specific to each organisation, including adoption level, implementation quality and internal processes. Axxun Evalua Sàrl disclaims all liability for decisions made on the basis of this document.';
-
-  function r(id) { var e = el(id); return e ? e.innerHTML : '—'; }
-  function rt(id) { var e = el(id); return e ? e.textContent : '—'; }
-
-  var adoptSel = el('adopt-sel');
-  var adoptText = adoptSel && adoptSel.selectedIndex >= 0 ? adoptSel.options[adoptSel.selectedIndex].text : '—';
-  var g1Sel = el('gain-sel-1');
-  var g2Sel = el('gain-sel-2');
-  var g1Text = g1Sel && g1Sel.selectedIndex >= 0 ? g1Sel.options[g1Sel.selectedIndex].text : '—';
-  var g2Text = g2Sel && g2Sel.selectedIndex >= 0 ? g2Sel.options[g2Sel.selectedIndex].text : '—';
-
-  var discountVal = parseFloat(el('discount').value) || 0;
-  var licLabel = tr.clic + (discountVal > 0 ? ' <span style="font-size:9px;color:rgba(6,25,71,0.45)">(' + discountVal + '% ' + (lang === 'fr' ? 'de remise' : 'discount') + ')</span>' : '');
-  var svc1Val = svc1El ? fmtN(parseInt(svc1El.value.replace(/[\s\u2009]/g,''))||0) : fmtN(0);
-  var svc2Val = svc2El ? fmtN(parseInt(svc2El.value.replace(/[\s\u2009]/g,''))||0) : fmtN(0);
-
-  var adoptIdx2 = el('adopt-sel').value !== '' ? parseInt(el('adopt-sel').value) : -1;
-  var adoptLabel = adoptIdx2 >= 0 && P.adopt[adoptIdx2]
-    ? adoptText + ' <span style="font-size:9px;color:rgba(6,25,71,0.45)">(' + P.adopt[adoptIdx2].val + ' ' + (lang === 'fr' ? 'j/user' : 'd/user') + ')</span>'
-    : '—';
-
-  var yr1Label = lang === 'fr' ? 'Année 1' : 'Year 1';
-  var yr2Label = lang === 'fr' ? 'Année 2' : 'Year 2';
-  var gainTimeLabel = tr.gpalier + '<br><span style="font-size:9px;color:rgba(6,25,71,0.45)">'
-    + yr1Label + ': ' + g1Text + ' / ' + yr2Label + ': ' + g2Text + '</span>';
-
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
-    + '<style>'
-    + 'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#061947;font-size:11px;margin:0;padding:2cm 2cm 0.5cm}'
-    + 'h1{font-size:15px;font-weight:700;margin:0}'
-    + '.hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;margin-bottom:28px}'
-    + '.hdr-right{text-align:right}'
-    + '.date{font-size:9px;color:rgba(6,25,71,0.5);margin-top:4px}'
-    + '.client-row{display:flex;justify-content:space-between;gap:32px;margin-bottom:56px;padding-bottom:14px;border-bottom:1px solid rgba(6,25,71,0.1)}'
-    + '.client-item label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(6,25,71,0.4);display:block;margin-bottom:3px}'
-    + '.client-item .val{font-size:13px;font-weight:600}'
-    + '.sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(6,25,71,0.4);margin:0 0 6px}'
-    + '.sec-wrap{margin-bottom:56px}'
-    + 'table{width:100%;border-collapse:collapse;margin-bottom:0}'
-    + 'thead tr{background:#EEF2FA}'
-    + 'th{padding:8px 14px;font-size:9px;font-weight:700;color:rgba(6,25,71,0.45);text-transform:uppercase;letter-spacing:.07em;text-align:left}'
-    + 'td{padding:9px 14px;font-size:11px;border-top:1px solid rgba(6,25,71,0.18)}'
-    + 'td.r{text-align:right;width:3cm}'
-    + 'tr.tot td{border-top:1px solid rgba(6,25,71,0.18);border-bottom:1px solid rgba(6,25,71,0.18);background:#EEF2FA;font-weight:700}'
-    + 'tr.tot{background:#EEF2FA;font-weight:700}'
-    + '.roi-grid{display:flex;gap:12px;margin-top:6px}'
-    + '.roi-card{flex:1;border:1px solid rgba(6,25,71,0.18);border-radius:4px;padding:14px 10px;text-align:center;border-top:3px solid rgba(6,25,71,0.15)}'
-    + '.roi-card.pos{border-top-color:#67DEEC}'
-    + '.roi-card.neg{border-top-color:#E05050}'
-    + '.roi-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(6,25,71,0.45);margin-bottom:8px}'
-    + '.roi-val{font-size:20px;font-weight:700}'
-    + '.roi-pct{font-size:11px;color:rgba(6,25,71,0.5);margin-top:3px}'
-    + '.footer{position:fixed;bottom:0;left:0;right:0;padding:.4cm 0;border-top:1px solid rgba(6,25,71,0.15);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:2rem}'
-    + '.disclaimer{font-size:7.5px;color:rgba(6,25,71,0.45);line-height:1.5;text-align:left;max-width:70%}'
-    + '@media print{@page{margin:2cm 2cm 0.5cm 2cm;size:A4}body{padding:0}}'
-    + '</style></head><body>'
-
-    + '<div class="hdr">'
-    + '<img src="https://axxun.ch/wp-content/uploads/Axxun-logo.png" style="height:22px;width:auto;display:block">'
-    + '<div class="hdr-right"><h1>ROI Calculator · monday.com</h1><div class="date">' + date + '</div></div>'
-    + '</div>'
-
-    + '<div class="client-row">'
-    + '<div class="client-item"><label>' + tr.users + '</label><div class="val">' + users + '</div></div>'
-    + '<div class="client-item"><label>' + tr.service + '</label><div class="val">' + svcName + '</div></div>'
-    + '<div class="client-item"><label>' + tr.hourly + '</label><div class="val">Chf\u00a0' + hourly + '/h</div></div>'
-    + '</div>'
-
-    + '<div class="sec-wrap"><div class="sec">' + tr.s2 + '</div>'
-    + '<table><thead><tr><th>' + tr.th + '</th><th style="text-align:right">' + tr.yr1 + '</th><th style="text-align:right">' + tr.yr2 + '</th></tr></thead><tbody>'
-    + '<tr><td>' + licLabel + '</td><td class="r">' + r('c-lic-y1') + '</td><td class="r">' + r('c-lic-y2') + '</td></tr>'
-    + '<tr><td>' + tr.csvc + '</td><td class="r">' + svc1Val + '</td><td class="r">' + svc2Val + '</td></tr>'
-    + '<tr><td>' + tr.cadopt + ' — ' + adoptLabel + '</td><td class="r">' + r('c-adopt-y1') + '</td><td class="r">' + r('c-adopt-y2') + '</td></tr>'
-    + '<tr class="tot"><td>' + tr.tcosts + '</td><td class="r">' + r('tc1') + '</td><td class="r">' + r('tc2') + '</td></tr>'
-    + '</tbody></table></div>'
-
-    + '<div class="sec-wrap"><div class="sec">' + tr.s3 + '</div>'
-    + '<table><thead><tr><th>' + tr.th + '</th><th style="text-align:right">' + tr.yr1 + '</th><th style="text-align:right">' + tr.yr2 + '</th></tr></thead><tbody>'
-    + '<tr><td>' + gainTimeLabel + '</td><td class="r">' + r('g-h1') + '</td><td class="r">' + r('g-h2') + '</td></tr>'
-    + '<tr><td>' + tr.gval + '</td><td class="r">' + r('g-chf1') + '</td><td class="r">' + r('g-chf2') + '</td></tr>'
-    + '<tr class="tot"><td>' + tr.tgains + '</td><td class="r">' + r('tg1') + '</td><td class="r">' + r('tg2') + '</td></tr>'
-    + '</tbody></table></div>'
-
-    + '<div class="sec-wrap"><div class="sec">' + tr.s4 + '</div>'
-    + '<div class="roi-grid">'
-    + roiCardHtml('rc1', r('rv1'), r('rp1'), tr.yr1)
-    + roiCardHtml('rc2', r('rv2'), r('rp2'), tr.yr2)
-    + roiCardHtml('rcC', r('rvC'), r('rpC'), tr.rcum)
-    + '</div></div>'
-
-    + '<div class="footer">'
-    + '<img src="https://axxun.ch/wp-content/uploads/logo-monday-partner.png" style="height:28px;width:auto;flex-shrink:0">'
-    + '<div class="disclaimer">' + disclaimer + '</div>'
-    + '</div>'
-
-    + '<script>window.onload=function(){window.print();window.onafterprint=function(){window.close()};}<\/script>'
-    + '</body></html>';
-
-  var w = window.open('', '_blank');
-  if (w) { w.document.write(html); w.document.close(); }
-});
-
-function roiCardHtml(cid, val, pct, lbl) {
-  var cls = el(cid) ? el(cid).className.replace('roi-card','').trim() : '';
-  return '<div class="roi-card ' + cls + '"><div class="roi-lbl">' + lbl + '</div><div class="roi-val">' + val + '</div><div class="roi-pct">' + pct + '</div></div>';
-}
-
-el('btn-fr').addEventListener('click', function() { setLang('fr'); });
-el('btn-en').addEventListener('click', function() { setLang('en'); });
-el('axxun-trigger').addEventListener('click', togglePanel);
-el('save-btn').addEventListener('click', saveParams);
-el('users').addEventListener('input', calc);
-el('service').addEventListener('change', calc);
-el('hourly').addEventListener('input', calc);
-el('discount').addEventListener('input', calc);
-el('adopt-sel').addEventListener('change', calc);
-el('gain-sel-1').addEventListener('change', calc);
-el('gain-sel-2').addEventListener('change', calc);
+el('btn-fr').addEventListener('click',function(){ setLang('fr'); });
+el('btn-en').addEventListener('click',function(){ setLang('en'); });
+el('axxun-trigger').addEventListener('click',togglePanel);
+el('save-btn').addEventListener('click',saveParams);
+el('print-btn').addEventListener('click',doPrint);
+el('users').addEventListener('input',calc);
+el('service').addEventListener('change',calc);
+el('hourly').addEventListener('input',calc);
+el('discount').addEventListener('input',calc);
+el('adopt-sel').addEventListener('change',calc);
+el('gain-sel-1').addEventListener('change',calc);
+el('gain-sel-2').addEventListener('change',calc);
 
 loadParams();
 </script>
