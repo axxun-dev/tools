@@ -56,11 +56,16 @@ input:focus,select:focus{border-color:var(--teal)}
 .roi-pct{font-size:14px;font-weight:500;color:var(--muted);margin-top:.35rem}
 .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--subtle);margin:1.75rem 0 .7rem}
 .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--teal-bg);color:var(--navy);font-weight:600;margin-left:5px;vertical-align:middle}
-.mode-sw{display:flex;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.mode-sw button{flex:1;padding:9px 10px;border:none;background:#fff;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer}
-.mode-sw button+button{border-left:1px solid var(--border)}
-.mode-sw button.on{background:var(--teal);color:var(--navy);font-weight:700}
-input:disabled{background:#F4F7FB;color:var(--subtle)}
+.row-base{display:flex;gap:12px;align-items:flex-end}
+.row-base{flex-wrap:nowrap}
+.row-base .fld label{white-space:nowrap}
+.mode-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.mode-row .mlbl{font-size:12px;font-weight:500;color:var(--muted);margin-right:4px}
+.mode-opt{font-size:14px;color:var(--subtle);cursor:pointer;user-select:none;background:none;border:none;padding:0}
+.mode-opt.on{color:var(--navy);font-weight:700}
+.tgl{position:relative;width:38px;height:22px;border-radius:11px;border:none;background:#E3E8F0;cursor:pointer;padding:0;flex:none}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--teal);transition:left .2s}
+.tgl.money::after{left:19px}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
 </style>
@@ -116,16 +121,17 @@ input:disabled{background:#F4F7FB;color:var(--subtle)}
 <!-- CALCULATOR -->
 <div id="calc-sections">
   <div class="card" style="margin-top:.25rem">
-    <div class="g3">
-      <div class="fld"><label id="lbl-users">Nombre d'utilisateurs</label><input type="number" id="users" value="0" min="0"></div>
-      <div class="fld"><label id="lbl-service">Produit</label><select id="service"></select></div>
-      <div class="fld"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><input type="number" id="hourly" value="45" min="0"></div>
+    <div class="row-base">
+      <div class="fld" style="width:90px"><label id="lbl-users">Utilisateurs</label><input type="number" id="users" value="0" min="0" max="999"></div>
+      <div class="fld" style="width:287px"><label id="lbl-service">Produit</label><select id="service"></select></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-hourly"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><input type="number" id="hourly" value="45" min="0"></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-billable"><label id="lbl-billable">Prix horaire facturable (CHF/h)</label><input type="number" id="billable" value="120" min="0"></div>
     </div>
-    <div class="g3" style="margin-top:16px">
-      <div class="fld"><label id="lbl-mode">Valorisation des gains</label>
-        <div class="mode-sw"><button type="button" id="mode-time" class="on">Temps (coût interne)</button><button type="button" id="mode-money">Argent (facturable)</button></div>
-      </div>
-      <div class="fld"><label id="lbl-billable">Prix horaire facturable moyen (CHF/h)</label><input type="number" id="billable" value="120" min="0" disabled></div>
+    <div class="mode-row">
+      <span class="mlbl" id="lbl-mode">Valorisation des gains</span>
+      <button type="button" class="mode-opt on" id="mode-time">Coût interne</button>
+      <button type="button" class="tgl" id="mode-tgl" aria-label="toggle"></button>
+      <button type="button" class="mode-opt" id="mode-money">Facturable</button>
     </div>
   </div>
 
@@ -237,8 +243,8 @@ var TR_FR = {
   gainTitle:'Paliers de gains de temps',gainUnit:'heures / user / semaine',
   save:'Enregistrer',saved:'✓ Paramètres enregistrés',
   s2:'Coûts',s3:'Gains',s4:'Résultat ROI',
-  users:"Nombre d'utilisateurs",service:'Produit',hourly:'Coût horaire interne (CHF/h)',
-  mode:'Valorisation des gains',modeTime:'Temps (coût interne)',modeMoney:'Argent (facturable)',billable:'Prix horaire facturable moyen (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
+  users:"Utilisateurs",service:'Produit',hourly:'Coût horaire interne (CHF/h)',
+  mode:'Valorisation des gains',modeTime:'Coût interne',modeMoney:'Facturable',billable:'Prix horaire facturable (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
   yr1:'Année 1',yr2:'Année 2',th:'Poste',
   clic:'Licences',discount:'Remise',csvc:'Services Axxun',
   cadopt:"Coût d'adoption",palier:'Palier :',tcosts:'Total coûts',
@@ -253,8 +259,8 @@ var TR_EN = {
   gainTitle:'Time-saved tiers',gainUnit:'hours / user / week',
   save:'Save',saved:'✓ Settings saved',
   s2:'Costs',s3:'Gains',s4:'ROI Result',
-  users:'Number of users',service:'Product',hourly:'Internal hourly rate (CHF/h)',
-  mode:'Gain valuation',modeTime:'Time (internal cost)',modeMoney:'Money (billable)',billable:'Average billable hourly rate (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
+  users:'Users',service:'Product',hourly:'Internal hourly rate (CHF/h)',
+  mode:'Gain valuation',modeTime:'Internal cost',modeMoney:'Billable',billable:'Billable hourly rate (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
   yr1:'Year 1',yr2:'Year 2',th:'Item',
   clic:'Licenses',discount:'Discount',csvc:'Axxun services',
   cadopt:'Adoption cost',palier:'Tier:',tcosts:'Total costs',
@@ -400,7 +406,7 @@ function setMode(m) {
   mode=m;
   el('mode-time').classList.toggle('on',m==='time');
   el('mode-money').classList.toggle('on',m==='money');
-  el('billable').disabled=(m!=='money');
+  el('mode-tgl').classList.toggle('money',m==='money');
   txt('lbl-gval',m==='money'?t().gvalB:t().gval);
   calc();
 }
@@ -610,6 +616,7 @@ el('hourly').addEventListener('input',calc);
 el('billable').addEventListener('input',calc);
 el('mode-time').addEventListener('click',function(){ setMode('time'); });
 el('mode-money').addEventListener('click',function(){ setMode('money'); });
+el('mode-tgl').addEventListener('click',function(){ setMode(mode==='money'?'time':'money'); });
 el('discount').addEventListener('input',calc);
 el('adopt-sel').addEventListener('change',calc);
 el('gain-sel-1').addEventListener('change',calc);
