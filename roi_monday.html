@@ -61,11 +61,11 @@ input:focus,select:focus{border-color:var(--teal)}
 .row-base .fld label{white-space:nowrap}
 .mode-row{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
 .mode-row .mlbl{font-size:12px;font-weight:500;color:var(--muted);margin-right:4px}
-.mode-opt{font-size:14px;color:var(--subtle);cursor:pointer;user-select:none;background:none;border:none;padding:0}
-.mode-opt.on{color:var(--navy);font-weight:700}
-.tgl{position:relative;width:38px;height:22px;border-radius:11px;border:none;background:#E3E8F0;cursor:pointer;padding:0;flex:none}
-.tgl::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--teal);transition:left .2s}
-.tgl.money::after{left:19px}
+.mode-opt{font-size:14px;color:var(--subtle);white-space:nowrap}
+.mode-opt b{font-weight:700;color:var(--navy)}
+.mix{-webkit-appearance:none;appearance:none;flex:0 1 260px;height:6px;padding:0;border:none;border-radius:3px;background:#E3E8F0;cursor:pointer}
+.mix::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--teal);border:none;cursor:pointer}
+.mix::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--teal);border:none;cursor:pointer}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
 </style>
@@ -129,9 +129,9 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
     <div class="mode-row">
       <span class="mlbl" id="lbl-mode">Valorisation des gains</span>
-      <button type="button" class="mode-opt on" id="mode-time">Coût interne</button>
-      <button type="button" class="tgl" id="mode-tgl" aria-label="toggle"></button>
-      <button type="button" class="mode-opt" id="mode-money">Facturable</button>
+      <span class="mode-opt" id="mode-time"></span>
+      <input type="range" class="mix" id="mix" min="0" max="100" step="5" value="0">
+      <span class="mode-opt" id="mode-money"></span>
     </div>
   </div>
 
@@ -225,16 +225,20 @@ input:focus,select:focus{border-color:var(--teal)}
 
 <script>
 var lang = 'fr';
-var mode = 'time';
+var share = 0;
 
 var DN_ADOPT_FR = [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}];
 var DN_ADOPT_EN = [{name:'Ninja!',val:2},{name:'Enthusiasts',val:3},{name:'Classic',val:4},{name:'Resistant',val:6}];
+
+var DN_GAIN_FR = ['Limité','Modéré','Significatif','Élevé','Très élevé'];
+var DN_GAIN_EN = ['Limited','Moderate','Significant','High','Very high'];
+var DN_GAIN_OLD = ['Very low','Low','Medium','High','Ninja!'];
 
 var P = {
   prices: {wm:52,crm:65,dev:35,service:71},
   fx:0.97, weeks:46,
   adopt: [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}],
-  gain:  [{name:'Very low',val:1},{name:'Low',val:2},{name:'Medium',val:4},{name:'High',val:6},{name:'Ninja!',val:8}]
+  gain:  [{name:'Limité',val:1},{name:'Modéré',val:2},{name:'Significatif',val:4},{name:'Élevé',val:6},{name:'Très élevé',val:8}]
 };
 
 var TR_FR = {
@@ -244,7 +248,7 @@ var TR_FR = {
   save:'Enregistrer',saved:'✓ Paramètres enregistrés',
   s2:'Coûts',s3:'Gains',s4:'Résultat ROI',
   users:"Utilisateurs",service:'Produit',hourly:'Coût horaire interne (CHF/h)',
-  mode:'Valorisation des gains',modeTime:'Coût interne',modeMoney:'Facturable',billable:'Prix horaire facturable (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
+  mode:'Valorisation des gains',modeTime:'Coût interne',modeMoney:'Facturable',gvalM:'Valeur totale des heures économisées',mixLbl:'mix',billable:'Prix horaire facturable (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
   yr1:'Année 1',yr2:'Année 2',th:'Poste',
   clic:'Licences',discount:'Remise',csvc:'Services Axxun',
   cadopt:"Coût d'adoption",palier:'Palier :',tcosts:'Total coûts',
@@ -260,7 +264,7 @@ var TR_EN = {
   save:'Save',saved:'✓ Settings saved',
   s2:'Costs',s3:'Gains',s4:'ROI Result',
   users:'Users',service:'Product',hourly:'Internal hourly rate (CHF/h)',
-  mode:'Gain valuation',modeTime:'Internal cost',modeMoney:'Billable',billable:'Billable hourly rate (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
+  mode:'Gain valuation',modeTime:'Internal cost',modeMoney:'Billable',gvalM:'Total value of saved hours',mixLbl:'mix',billable:'Billable hourly rate (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
   yr1:'Year 1',yr2:'Year 2',th:'Item',
   clic:'Licenses',discount:'Discount',csvc:'Axxun services',
   cadopt:'Adoption cost',palier:'Tier:',tcosts:'Total costs',
@@ -289,14 +293,14 @@ function applyT() {
   txt('lbl-gain-title',tr.gainTitle); txt('lbl-gain-unit',tr.gainUnit);
   txt('save-btn',tr.save);
   txt('lbl-s2',tr.s2); txt('lbl-s3',tr.s3); txt('lbl-s4',tr.s4);
-  txt('lbl-mode',tr.mode); txt('mode-time',tr.modeTime); txt('mode-money',tr.modeMoney); txt('lbl-billable',tr.billable);
+  txt('lbl-mode',tr.mode); txt('lbl-billable',tr.billable);
   txt('lbl-users',tr.users); txt('lbl-service',tr.service); txt('lbl-hourly',tr.hourly);
   txt('lbl-th',tr.th); txt('lbl-th-yr1',tr.yr1); txt('lbl-th-yr2',tr.yr2);
   txt('lbl-th2',tr.th); txt('lbl-th-yr1b',tr.yr1); txt('lbl-th-yr2b',tr.yr2);
   txt('lbl-clic',tr.clic); txt('lbl-discount',tr.discount);
   txt('lbl-csvc',tr.csvc); txt('lbl-cadopt',tr.cadopt); txt('lbl-palier',tr.palier);
   txt('lbl-tcosts',tr.tcosts);
-  txt('lbl-gpalier',tr.gpalier); txt('lbl-gval',mode==='money'?tr.gvalB:tr.gval); txt('lbl-tgains',tr.tgains);
+  txt('lbl-gpalier',tr.gpalier); txt('lbl-gval',gvalLabel()); txt('lbl-tgains',tr.tgains);
   txt('lbl-gyr1',tr.yr1+' :'); txt('lbl-gyr2',tr.yr2+' :');
   txt('lbl-rc1',tr.yr1); txt('lbl-rc2',tr.yr2); txt('lbl-rcC',tr.rcum);
   txt('lbl-print',lang==='fr'?'Imprimer':'Print');
@@ -398,16 +402,26 @@ function setLang(l) {
     var fromA=prev==='fr'?DN_ADOPT_FR:DN_ADOPT_EN;
     var toA=l==='fr'?DN_ADOPT_FR:DN_ADOPT_EN;
     P.adopt.forEach(function(a,i){ if(i<fromA.length&&a.name===fromA[i].name) a.name=toA[i].name; });
+    var fromG=prev==='fr'?DN_GAIN_FR:DN_GAIN_EN;
+    var toG=l==='fr'?DN_GAIN_FR:DN_GAIN_EN;
+    P.gain.forEach(function(g,i){ if(i<fromG.length&&g.name===fromG[i]) g.name=toG[i]; });
   }
-  applyT(); buildSelects(); buildParamInputs(); calc();
+  applyT(); buildSelects(); buildParamInputs(); setMix(share);
 }
 
-function setMode(m) {
-  mode=m;
-  el('mode-time').classList.toggle('on',m==='time');
-  el('mode-money').classList.toggle('on',m==='money');
-  el('mode-tgl').classList.toggle('money',m==='money');
-  txt('lbl-gval',m==='money'?t().gvalB:t().gval);
+function gvalLabel() {
+  var tr=t();
+  if(share===0) return tr.gval;
+  if(share===100) return tr.gvalB;
+  return tr.gvalM+' ('+tr.mixLbl+' '+(100-share)+'% '+tr.modeTime.toLowerCase()+' / '+share+'% '+tr.modeMoney.toLowerCase()+')';
+}
+
+function setMix(v) {
+  share=Math.max(0,Math.min(100,parseInt(v)||0));
+  var tr=t();
+  set('mode-time',(share<100?'<b>'+(100-share)+'%</b> ':'0% ')+tr.modeTime);
+  set('mode-money',tr.modeMoney+' '+(share>0?'<b>'+share+'%</b>':'0%'));
+  txt('lbl-gval',gvalLabel());
   calc();
 }
 
@@ -445,17 +459,17 @@ function calc() {
     adoptName=at.name+' : '+at.val+' j/user × 8h × '+users+' users';
   }
   txt('adopt-detail',adoptName);
-  set('c-adopt-y1',fmtN(adoptCost)); set('c-adopt-y2',fmtN(adoptCost));
+  set('c-adopt-y1',fmtN(adoptCost)); set('c-adopt-y2','—');
 
   var tc1=licChf+svc1+adoptCost;
-  var tc2=licChf+svc2+adoptCost;
+  var tc2=licChf+svc2;
   set('tc1',fmtN(tc1)); set('tc2',fmtN(tc2));
 
   var gi1=parseInt(el('gain-sel-1').value)||0;
   var gi2=parseInt(el('gain-sel-2').value)||0;
   var totalH1=P.gain[gi1].val*P.weeks*users;
   var totalH2=P.gain[gi2].val*P.weeks*users;
-  var gainRate=mode==='money'?(parseFloat(el('billable').value)||0):hourly;
+  var gainRate=hourly*(100-share)/100+(parseFloat(el('billable').value)||0)*share/100;
   var gChf1=totalH1*gainRate;
   var gChf2=totalH2*gainRate;
 
@@ -557,7 +571,7 @@ function doPrint() {
     +'<div class="client-item"><label>'+tr.users+'</label><div class="val">'+users+'</div></div>'
     +'<div class="client-item"><label>'+tr.service+'</label><div class="val">'+svcName+'</div></div>'
     +'<div class="client-item"><label>'+tr.hourly+'</label><div class="val">Chf\u00a0'+hourly+'/h</div></div>'
-    +(mode==='money'?'<div class="client-item"><label>'+tr.billable+'</label><div class="val">Chf\u00a0'+billable+'/h</div></div>':'')
+    +(share>0?'<div class="client-item"><label>'+tr.billable+'</label><div class="val">Chf\u00a0'+billable+'/h</div></div>':'')
     +'</div>'
     +'<div class="sec-wrap"><div class="sec">'+tr.s2+'</div>'
     +'<table><thead><tr><th>'+tr.th+'</th><th style="text-align:right">'+tr.yr1+'</th><th style="text-align:right">'+tr.yr2+'</th></tr></thead><tbody>'
@@ -569,7 +583,7 @@ function doPrint() {
     +'<div class="sec-wrap"><div class="sec">'+tr.s3+'</div>'
     +'<table><thead><tr><th>'+tr.th+'</th><th style="text-align:right">'+tr.yr1+'</th><th style="text-align:right">'+tr.yr2+'</th></tr></thead><tbody>'
     +'<tr><td>'+gainLabel+'</td><td class="r">'+r('g-h1')+'</td><td class="r">'+r('g-h2')+'</td></tr>'
-    +'<tr><td>'+(mode==='money'?tr.gvalB:tr.gval)+'</td><td class="r">'+r('g-chf1')+'</td><td class="r">'+r('g-chf2')+'</td></tr>'
+    +'<tr><td>'+gvalLabel()+'</td><td class="r">'+r('g-chf1')+'</td><td class="r">'+r('g-chf2')+'</td></tr>'
     +'<tr class="tot"><td>'+tr.tgains+'</td><td class="r">'+r('tg1')+'</td><td class="r">'+r('tg2')+'</td></tr>'
     +'</tbody></table></div>'
     +'<div class="sec-wrap"><div class="sec">'+tr.s4+'</div>'
@@ -599,10 +613,13 @@ function loadParams() {
       if(saved.fx) P.fx=saved.fx;
       if(saved.weeks) P.weeks=saved.weeks;
       if(saved.adopt) P.adopt=saved.adopt;
-      if(saved.gain) P.gain=saved.gain;
+      if(saved.gain) {
+        P.gain=saved.gain;
+        P.gain.forEach(function(g,i){ if(i<DN_GAIN_OLD.length&&g.name===DN_GAIN_OLD[i]) g.name=DN_GAIN_FR[i]; });
+      }
     }
   } catch(e) {}
-  buildParamInputs(); buildSvcCells(); buildSelects(); applyT(); calc();
+  buildParamInputs(); buildSvcCells(); buildSelects(); applyT(); setMix(share);
 }
 
 el('btn-fr').addEventListener('click',function(){ setLang('fr'); });
@@ -614,9 +631,7 @@ el('users').addEventListener('input',calc);
 el('service').addEventListener('change',calc);
 el('hourly').addEventListener('input',calc);
 el('billable').addEventListener('input',calc);
-el('mode-time').addEventListener('click',function(){ setMode('time'); });
-el('mode-money').addEventListener('click',function(){ setMode('money'); });
-el('mode-tgl').addEventListener('click',function(){ setMode(mode==='money'?'time':'money'); });
+el('mix').addEventListener('input',function(){ setMix(this.value); });
 el('discount').addEventListener('input',calc);
 el('adopt-sel').addEventListener('change',calc);
 el('gain-sel-1').addEventListener('change',calc);
