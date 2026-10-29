@@ -69,6 +69,15 @@ input:focus,select:focus{border-color:var(--teal)}
 .lblrow{display:flex;align-items:center;gap:5px}
 .info{flex:none;width:15px;height:15px;border-radius:50%;border:1px solid var(--subtle);background:#fff;color:var(--muted);font-size:10px;font-weight:700;font-style:italic;font-family:Georgia,serif;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .info:hover,.info.open{background:var(--teal);border-color:var(--teal);color:var(--navy)}
+#share-ov{position:fixed;inset:0;z-index:100;background:rgba(6,25,71,.35);display:flex;align-items:center;justify-content:center;padding:16px}
+#share-box{background:#fff;border-radius:var(--rl);box-shadow:0 12px 40px rgba(6,25,71,.25);padding:1.4rem 1.6rem;width:100%;max-width:520px}
+#share-box h3{font-size:16px;font-weight:600;margin-bottom:6px}
+#share-box p{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.share-row{display:flex;gap:8px}
+.share-row input{font-size:13px;flex:1;min-width:0}
+.share-row button,.share-close{padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;border:none}
+#share-copy{background:var(--teal);color:var(--navy)}
+.share-close{background:transparent;color:var(--muted);border:1px solid var(--border);font-weight:500;margin-top:14px}
 #tip{position:absolute;z-index:50;max-width:300px;background:var(--navy);color:#fff;font-size:12.5px;line-height:1.5;padding:11px 13px;border-radius:var(--r);box-shadow:0 6px 24px rgba(6,25,71,.25)}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
@@ -132,8 +141,8 @@ input:focus,select:focus{border-color:var(--teal)}
     <div class="row-base">
       <div class="fld" style="width:108px"><div class="lblrow"><label id="lbl-users">Utilisateurs</label><button type="button" class="info" data-i="users" aria-label="info">i</button></div><input type="number" id="users" value="0" min="0" max="999"></div>
       <div class="fld" style="width:287px"><label id="lbl-service">Produit</label><select id="service"></select></div>
-      <div class="fld" style="flex:1;min-width:0" id="fld-hourly"><div class="lblrow"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><button type="button" class="info" data-i="hourly" aria-label="info">i</button></div><input type="number" id="hourly" value="45" min="0"></div>
-      <div class="fld" style="flex:1;min-width:0" id="fld-billable"><div class="lblrow"><label id="lbl-billable">Prix horaire facturable (CHF/h)</label><button type="button" class="info" data-i="billable" aria-label="info">i</button></div><input type="number" id="billable" value="120" min="0"></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-hourly"><div class="lblrow"><label id="lbl-hourly">Coût interne (CHF/h)</label><button type="button" class="info" data-i="hourly" aria-label="info">i</button></div><input type="number" id="hourly" value="45" min="0"></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-billable"><div class="lblrow"><label id="lbl-billable">Facturable (CHF/h)</label><button type="button" class="info" data-i="billable" aria-label="info">i</button></div><input type="number" id="billable" value="120" min="0"></div>
     </div>
     <div class="mode-row">
       <span class="lblrow" style="margin-right:4px"><span class="mlbl" id="lbl-mode" style="margin-right:0">Valorisation des gains</span><button type="button" class="info" data-i="mode" aria-label="info">i</button></span>
@@ -165,7 +174,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
     <div class="trow" style="grid-template-columns:1fr 170px 170px">
       <div class="td" style="flex-direction:column;align-items:flex-start;gap:3px">
-        <span id="lbl-csvc">Services Axxun</span>
+        <span class="lblrow"><span id="lbl-csvc">Services Axxun</span><button type="button" class="info" data-i="svc" aria-label="info">i</button></span>
         <span class="tsubt">CHF</span>
       </div>
       <div class="td inp" id="svc1-cell"></div>
@@ -255,8 +264,8 @@ var TR_FR = {
   gainTitle:'Paliers de gains de temps',gainUnit:'heures / user / semaine',
   save:'Enregistrer',saved:'✓ Paramètres enregistrés',
   s2:'Coûts',s3:'Gains',s4:'Résultat ROI',
-  users:"Utilisateurs",service:'Produit',hourly:'Coût horaire interne (CHF/h)',
-  mode:'Valorisation des gains',modeTime:'Temps interne',modeMoney:'Temps facturable',gvalM:'Valeur totale des heures économisées',mixLbl:'mix',billable:'Prix horaire facturable (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
+  users:"Utilisateurs",service:'Produit',hourly:'Coût interne (CHF/h)',
+  mode:'Valorisation des gains',modeTime:'Temps interne',modeMoney:'Temps facturable',gvalM:'Valeur totale des heures économisées',mixLbl:'mix',billable:'Facturable (CHF/h)',gvalB:'Valeur totale des heures économisées (prix facturable)',
   yr1:'Année 1',yr2:'Année 2',th:'Poste',
   clic:'Licences',discount:'Remise',csvc:'Services Axxun',
   cadopt:"Coût d'adoption",palier:'Palier :',tcosts:'Total coûts',
@@ -271,8 +280,8 @@ var TR_EN = {
   gainTitle:'Time-saved tiers',gainUnit:'hours / user / week',
   save:'Save',saved:'✓ Settings saved',
   s2:'Costs',s3:'Gains',s4:'ROI Result',
-  users:'Users',service:'Product',hourly:'Internal hourly rate (CHF/h)',
-  mode:'Gain valuation',modeTime:'Internal time',modeMoney:'Billable time',gvalM:'Total value of saved hours',mixLbl:'mix',billable:'Billable hourly rate (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
+  users:'Users',service:'Product',hourly:'Internal cost (CHF/h)',
+  mode:'Gain valuation',modeTime:'Internal time',modeMoney:'Billable time',gvalM:'Total value of saved hours',mixLbl:'mix',billable:'Billable (CHF/h)',gvalB:'Total value of saved hours (billable rate)',
   yr1:'Year 1',yr2:'Year 2',th:'Item',
   clic:'Licenses',discount:'Discount',csvc:'Axxun services',
   cadopt:'Adoption cost',palier:'Tier:',tcosts:'Total costs',
@@ -287,7 +296,8 @@ var TIPS_FR = {
   hourly:"Coût complet moyen d'une heure de travail d'un collaborateur pour l'entreprise (salaire chargé, charges sociales, frais généraux). Il valorise le temps d'adoption et, selon le curseur, les heures économisées.",
   billable:"Tarif moyen auquel l'entreprise facture une heure de travail à ses clients. Il valorise les heures économisées dans la part « temps facturable », si ce temps libéré est réellement réaffecté à du travail facturé.",
   mode:"Choisissez comment valoriser les heures économisées : au coût interne (économie de coûts, approche prudente) ou au prix facturable (chiffre d'affaires supplémentaire, uniquement si le temps libéré est revendu). Le curseur permet de panacher, par exemple 50/50. Le coût d'adoption reste toujours calculé au coût interne.",
-  adopt:"Temps consacré par les utilisateurs à prendre en main l'outil (formation, paramétrage, changement d'habitudes), en jours par utilisateur. Calculé en année 1 uniquement : jours × 8 h × utilisateurs × coût horaire interne. Le palier dépend de l'appétence des équipes pour le changement.",
+  adopt:"Temps que les utilisateurs consacrent à prendre en main l'outil (formation, paramétrage, changement d'habitudes). Il s'agit d'une moyenne : certains utilisateurs, comme les champions, y consacreront davantage de temps, le collaborateur lambda moins. Le palier dépend de l'appétence des équipes pour le changement et de leur maturité digitale.",
+  svc:"Services d'implémentation et d'accompagnement fournis par Axxun, à saisir en CHF pour chaque année.",
   gain:"Heures économisées par collaborateur et par semaine grâce à une meilleure organisation (moins de relances, de ressaisies, de recherches d'information). Ce potentiel dépend du métier et de la maturité de l'organisation : plus les processus sont manuels ou dispersés, plus il est élevé. Il est multiplié par le nombre de semaines travaillées par an."
 };
 var TIPS_EN = {
@@ -295,7 +305,8 @@ var TIPS_EN = {
   hourly:"Average full cost to the company of one hour of an employee's work (loaded salary, social charges, overheads). It values the adoption time and, depending on the slider, the hours saved.",
   billable:"Average rate at which the company bills one hour of work to its clients. It values the hours saved in the \"billable time\" share, provided the freed-up time is actually reassigned to billed work.",
   mode:"Choose how hours saved are valued: at internal cost (cost saving, the cautious approach) or at billable rate (extra revenue, only if the freed-up time is actually resold). The slider lets you blend the two, e.g. 50/50. Adoption cost is always calculated at internal cost.",
-  adopt:"Time users spend getting to grips with the tool (training, setup, changing habits), in days per user. Counted in year 1 only: days × 8 h × users × internal hourly cost. The tier reflects how open the teams are to change.",
+  adopt:"Time users spend getting to grips with the tool (training, setup, changing habits). This is an average: some users, such as champions, will spend more time on it, the average collaborator less. The tier reflects how open the teams are to change and their digital maturity.",
+  svc:"Implementation and support services provided by Axxun, to be entered in CHF for each year.",
   gain:"Hours saved per collaborator per week through better organisation (fewer follow-ups, re-keying, information searches). This potential depends on the line of work and the organisation's maturity: the more manual or scattered the processes, the higher it is. It is multiplied by the working weeks per year."
 };
 
@@ -707,6 +718,14 @@ function sameArr(a,b) { return JSON.stringify(a)===JSON.stringify(b); }
 
 // Format compact : seuls les paramètres qui diffèrent des valeurs par défaut sont inclus,
 // et les noms des paliers ne sont jamais transmis (ils viennent des valeurs par défaut).
+// Intégré dans le site Axxun (iframe) : le lien ouvre la page WordPress, qui transmet le fragment à l'iframe.
+var SHARE_SITE_URL='https://axxun.ch/monday-roi/';
+function shareBase() {
+  var embedded=false;
+  try { embedded=window.self!==window.top; } catch(e) { embedded=true; }
+  return embedded?SHARE_SITE_URL:location.origin+location.pathname;
+}
+
 function buildShareUrl() {
   var f=SHARE_FIELDS.map(function(id){
     var v=el(id).value;
@@ -721,7 +740,7 @@ function buildShareUrl() {
   if(!sameArr(vals(P.gain),vals(P_DEFAULT.gain))) p.g=vals(P.gain);
   var st={v:2,l:lang==='en'?'e':'f',m:share,f:f};
   if(Object.keys(p).length) st.p=p;
-  return location.origin+location.pathname+'#s='+b64enc(JSON.stringify(st));
+  return shareBase()+'#s='+b64enc(JSON.stringify(st));
 }
 
 function applyShared(hash) {
@@ -758,16 +777,39 @@ function applyShared(hash) {
   } catch(e) {}
 }
 
+function closeShare() { var o=el('share-ov'); if(o) o.remove(); }
+
 function doShare() {
-  var url=buildShareUrl();
+  closeShare();
+  var fr=lang==='fr';
+  var ov=document.createElement('div');
+  ov.id='share-ov';
+  ov.innerHTML='<div id="share-box" role="dialog" aria-modal="true">'
+    +'<h3>'+(fr?'Lien de partage':'Share link')+'</h3>'
+    +'<p>'+(fr?'Ce lien ouvre le calculateur avec les réglages actuels déjà renseignés. Le destinataire peut ensuite les modifier.':'This link opens the calculator with the current settings pre-filled. The recipient can then adjust them.')+'</p>'
+    +'<div class="share-row"><input type="text" id="share-url" readonly><button type="button" id="share-copy">'+(fr?'Copier':'Copy')+'</button></div>'
+    +'<button type="button" class="share-close" id="share-close">'+(fr?'Fermer':'Close')+'</button>'
+    +'</div>';
+  document.body.appendChild(ov);
+  var inp=el('share-url'); inp.value=buildShareUrl();
+  inp.focus(); inp.select();
+  var btn=el('share-copy');
   var done=function() {
-    var l=el('lbl-share'), old=l.textContent;
-    l.textContent=lang==='fr'?'Lien copié ✓':'Link copied ✓';
-    setTimeout(function(){ l.textContent=old; },2000);
+    btn.textContent=fr?'Copié ✓':'Copied ✓';
+    setTimeout(function(){ if(el('share-copy')) btn.textContent=fr?'Copier':'Copy'; },2000);
   };
-  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done,function(){ window.prompt('Copy:',url); });
-  else window.prompt('Copy:',url);
+  var fallback=function() {
+    inp.focus(); inp.select();
+    try { if(document.execCommand('copy')) done(); } catch(e) {}
+  };
+  btn.addEventListener('click',function() {
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(inp.value).then(done,fallback);
+    else fallback();
+  });
+  el('share-close').addEventListener('click',closeShare);
+  ov.addEventListener('click',function(e){ if(e.target===ov) closeShare(); });
 }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeShare(); });
 
 el('btn-fr').addEventListener('click',function(){ setLang('fr'); });
 el('btn-en').addEventListener('click',function(){ setLang('en'); });
