@@ -66,6 +66,10 @@ input:focus,select:focus{border-color:var(--teal)}
 .mix{-webkit-appearance:none;appearance:none;flex:0 1 260px;height:6px;padding:0;border:none;border-radius:3px;background:#E3E8F0;cursor:pointer}
 .mix::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--teal);border:none;cursor:pointer}
 .mix::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--teal);border:none;cursor:pointer}
+.lblrow{display:flex;align-items:center;gap:5px}
+.info{flex:none;width:15px;height:15px;border-radius:50%;border:1px solid var(--subtle);background:#fff;color:var(--muted);font-size:10px;font-weight:700;font-style:italic;font-family:Georgia,serif;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.info:hover,.info.open{background:var(--teal);border-color:var(--teal);color:var(--navy)}
+#tip{position:absolute;z-index:50;max-width:300px;background:var(--navy);color:#fff;font-size:12.5px;line-height:1.5;padding:11px 13px;border-radius:var(--r);box-shadow:0 6px 24px rgba(6,25,71,.25)}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
 </style>
@@ -126,13 +130,13 @@ input:focus,select:focus{border-color:var(--teal)}
 <div id="calc-sections">
   <div class="card" style="margin-top:.25rem">
     <div class="row-base">
-      <div class="fld" style="width:90px"><label id="lbl-users">Utilisateurs</label><input type="number" id="users" value="0" min="0" max="999"></div>
+      <div class="fld" style="width:108px"><div class="lblrow"><label id="lbl-users">Utilisateurs</label><button type="button" class="info" data-i="users" aria-label="info">i</button></div><input type="number" id="users" value="0" min="0" max="999"></div>
       <div class="fld" style="width:287px"><label id="lbl-service">Produit</label><select id="service"></select></div>
-      <div class="fld" style="flex:1;min-width:0" id="fld-hourly"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><input type="number" id="hourly" value="45" min="0"></div>
-      <div class="fld" style="flex:1;min-width:0" id="fld-billable"><label id="lbl-billable">Prix horaire facturable (CHF/h)</label><input type="number" id="billable" value="120" min="0"></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-hourly"><div class="lblrow"><label id="lbl-hourly">Coût horaire interne (CHF/h)</label><button type="button" class="info" data-i="hourly" aria-label="info">i</button></div><input type="number" id="hourly" value="45" min="0"></div>
+      <div class="fld" style="flex:1;min-width:0" id="fld-billable"><div class="lblrow"><label id="lbl-billable">Prix horaire facturable (CHF/h)</label><button type="button" class="info" data-i="billable" aria-label="info">i</button></div><input type="number" id="billable" value="120" min="0"></div>
     </div>
     <div class="mode-row">
-      <span class="mlbl" id="lbl-mode">Valorisation des gains</span>
+      <span class="lblrow" style="margin-right:4px"><span class="mlbl" id="lbl-mode" style="margin-right:0">Valorisation des gains</span><button type="button" class="info" data-i="mode" aria-label="info">i</button></span>
       <span class="mode-opt" id="mode-time"></span>
       <input type="range" class="mix" id="mix" min="0" max="100" step="5" value="0">
       <span class="mode-opt" id="mode-money"></span>
@@ -169,7 +173,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
     <div class="trow" style="grid-template-columns:1fr 170px 170px">
       <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
-        <span id="lbl-cadopt">Coût d'adoption</span>
+        <span class="lblrow"><span id="lbl-cadopt">Coût d'adoption</span><button type="button" class="info" data-i="adopt" aria-label="info">i</button></span>
         <div style="display:flex;align-items:center;gap:7px;flex-wrap:nowrap">
           <span style="font-size:12px;color:var(--muted);white-space:nowrap" id="lbl-palier">Palier :</span>
           <select id="adopt-sel" style="min-width:0;flex:1"></select>
@@ -195,7 +199,7 @@ input:focus,select:focus{border-color:var(--teal)}
     </div>
     <div class="trow" style="grid-template-columns:1fr 170px 170px">
       <div class="td" style="flex-direction:column;align-items:flex-start;gap:6px">
-        <span id="lbl-gpalier">Temps gagné / collaborateur / semaine</span>
+        <span class="lblrow"><span id="lbl-gpalier">Temps gagné / collaborateur / semaine</span><button type="button" class="info" data-i="gain" aria-label="info">i</button></span>
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:nowrap;white-space:nowrap">
           <span style="font-size:12px;color:var(--muted)" id="lbl-gyr1">Année 1 :</span>
           <select id="gain-sel-1" style="min-width:0"></select>
@@ -278,6 +282,53 @@ var TR_EN = {
   svcs:['monday Work Management','monday CRM','monday Dev','monday Service']
 };
 
+var TIPS_FR = {
+  users:"Nombre de collaborateurs qui utiliseront monday.com au quotidien (licences payantes). Il détermine le coût des licences, le coût d'adoption et le temps gagné au total.",
+  hourly:"Coût complet moyen d'une heure de travail d'un collaborateur pour l'entreprise (salaire chargé, charges sociales, frais généraux). Il valorise le temps d'adoption et, selon le curseur, les heures économisées.",
+  billable:"Tarif moyen auquel l'entreprise facture une heure de travail à ses clients. Il valorise les heures économisées dans la part « temps facturable », si ce temps libéré est réellement réaffecté à du travail facturé.",
+  mode:"Choisissez comment valoriser les heures économisées : au coût interne (économie de coûts, approche prudente) ou au prix facturable (chiffre d'affaires supplémentaire, uniquement si le temps libéré est revendu). Le curseur permet de panacher, par exemple 50/50. Le coût d'adoption reste toujours calculé au coût interne.",
+  adopt:"Temps consacré par les utilisateurs à prendre en main l'outil (formation, paramétrage, changement d'habitudes), en jours par utilisateur. Calculé en année 1 uniquement : jours × 8 h × utilisateurs × coût horaire interne. Le palier dépend de l'appétence des équipes pour le changement.",
+  gain:"Heures économisées par collaborateur et par semaine grâce à une meilleure organisation (moins de relances, de ressaisies, de recherches d'information). Ce potentiel dépend du métier et de la maturité de l'organisation : plus les processus sont manuels ou dispersés, plus il est élevé. Il est multiplié par le nombre de semaines travaillées par an."
+};
+var TIPS_EN = {
+  users:"Number of people who will use monday.com daily (paid licences). It drives licence costs, adoption cost and total time saved.",
+  hourly:"Average full cost to the company of one hour of an employee's work (loaded salary, social charges, overheads). It values the adoption time and, depending on the slider, the hours saved.",
+  billable:"Average rate at which the company bills one hour of work to its clients. It values the hours saved in the \"billable time\" share, provided the freed-up time is actually reassigned to billed work.",
+  mode:"Choose how hours saved are valued: at internal cost (cost saving, the cautious approach) or at billable rate (extra revenue, only if the freed-up time is actually resold). The slider lets you blend the two, e.g. 50/50. Adoption cost is always calculated at internal cost.",
+  adopt:"Time users spend getting to grips with the tool (training, setup, changing habits), in days per user. Counted in year 1 only: days × 8 h × users × internal hourly cost. The tier reflects how open the teams are to change.",
+  gain:"Hours saved per collaborator per week through better organisation (fewer follow-ups, re-keying, information searches). This potential depends on the line of work and the organisation's maturity: the more manual or scattered the processes, the higher it is. It is multiplied by the working weeks per year."
+};
+
+var tipBtn=null;
+function closeTip() {
+  var tp=el('tip'); if(tp) tp.remove();
+  if(tipBtn) tipBtn.classList.remove('open');
+  tipBtn=null;
+}
+function openTip(btn) {
+  var same=(tipBtn===btn);
+  closeTip();
+  if(same) return;
+  var tp=document.createElement('div');
+  tp.id='tip'; tp.setAttribute('role','tooltip');
+  tp.textContent=(lang==='fr'?TIPS_FR:TIPS_EN)[btn.getAttribute('data-i')]||'';
+  document.body.appendChild(tp);
+  btn.classList.add('open'); tipBtn=btn;
+  var r=btn.getBoundingClientRect();
+  var left=r.left+window.pageXOffset-8;
+  var maxLeft=document.documentElement.clientWidth-tp.offsetWidth-8;
+  tp.style.left=Math.max(8,Math.min(left,maxLeft))+'px';
+  var top=r.bottom+window.pageYOffset+8;
+  if(r.bottom+8+tp.offsetHeight>window.innerHeight && r.top-8-tp.offsetHeight>0) top=r.top+window.pageYOffset-8-tp.offsetHeight;
+  tp.style.top=top+'px';
+}
+document.addEventListener('click',function(e) {
+  var b=e.target.closest?e.target.closest('.info'):null;
+  if(b) { e.preventDefault(); openTip(b); }
+  else if(!(e.target.closest&&e.target.closest('#tip'))) closeTip();
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeTip(); });
+
 function t() { return lang === 'fr' ? TR_FR : TR_EN; }
 function el(id) { return document.getElementById(id); }
 function set(id,html) { var e=el(id); if(e) e.innerHTML=html; }
@@ -292,6 +343,7 @@ function fmtH(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))
 
 function applyT() {
   var tr=t();
+  closeTip();
   txt('lbl-fx',tr.fx); txt('lbl-fxrate',tr.fxrate); txt('lbl-weeks',tr.weeks);
   txt('lbl-adopt-title',tr.adoptTitle); txt('lbl-adopt-unit',tr.adoptUnit);
   txt('lbl-gain-title',tr.gainTitle); txt('lbl-gain-unit',tr.gainUnit);
@@ -627,9 +679,12 @@ function loadParams() {
   buildParamInputs(); buildSvcCells(); buildSelects(); applyT(); setMix(share);
 }
 
-// Partage : tout l'état est encodé dans le fragment (#s=...) de l'URL, sans serveur.
-var SHARE_BASE_URL='https://axxun.ch/monday-roi';
+// Partage : l'état est encodé dans le fragment (#s=...) de l'URL, sans serveur.
+// Le lien pointe sur cette page elle-même (et non sur la page WordPress qui l'intègre
+// dans une iframe : le fragment de la page parente n'est pas visible depuis l'iframe).
 var SHARE_FIELDS=['users','service','hourly','billable','discount','adopt-sel','gain-sel-1','gain-sel-2','svc1','svc2'];
+var SERVICE_KEYS=['wm','crm','dev','service'];
+var P_DEFAULT=JSON.parse(JSON.stringify(P));
 
 function b64enc(str) {
   var bytes=new TextEncoder().encode(str), bin='';
@@ -642,31 +697,64 @@ function b64dec(str) {
   for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
   return new TextDecoder().decode(bytes);
 }
+function num(v,min,max,def) {
+  v=parseFloat(v);
+  if(!isFinite(v)) return def;
+  return Math.max(min,Math.min(max,v));
+}
+function vals(arr) { return arr.map(function(x){ return x.val; }); }
+function sameArr(a,b) { return JSON.stringify(a)===JSON.stringify(b); }
 
+// Format compact : seuls les paramètres qui diffèrent des valeurs par défaut sont inclus,
+// et les noms des paliers ne sont jamais transmis (ils viennent des valeurs par défaut).
 function buildShareUrl() {
-  var f={};
-  SHARE_FIELDS.forEach(function(id){ f[id]=el(id).value; });
-  var state={v:1,lang:lang,mix:share,f:f,P:P};
-  return SHARE_BASE_URL+'#s='+b64enc(JSON.stringify(state));
+  var f=SHARE_FIELDS.map(function(id){
+    var v=el(id).value;
+    return (id==='svc1'||id==='svc2')?v.replace(/[\s\u2009]/g,''):v;
+  });
+  var p={};
+  var pr=SERVICE_KEYS.map(function(k){ return P.prices[k]; });
+  if(!sameArr(pr,SERVICE_KEYS.map(function(k){ return P_DEFAULT.prices[k]; }))) p.pr=pr;
+  if(P.fx!==P_DEFAULT.fx) p.fx=P.fx;
+  if(P.weeks!==P_DEFAULT.weeks) p.w=P.weeks;
+  if(!sameArr(vals(P.adopt),vals(P_DEFAULT.adopt))) p.a=vals(P.adopt);
+  if(!sameArr(vals(P.gain),vals(P_DEFAULT.gain))) p.g=vals(P.gain);
+  var st={v:2,l:lang==='en'?'e':'f',m:share,f:f};
+  if(Object.keys(p).length) st.p=p;
+  return location.origin+location.pathname+'#s='+b64enc(JSON.stringify(st));
 }
 
-function applyShared() {
-  var m=location.hash.match(/^#s=([\w-]+)$/);
+function applyShared(hash) {
+  var m=(hash||location.hash).match(/^#s=([\w-]+)$/);
   if(!m) return;
   try {
     var st=JSON.parse(b64dec(m[1]));
-    if(st.P) {
-      if(st.P.prices) P.prices=st.P.prices;
-      if(st.P.fx) P.fx=st.P.fx;
-      if(st.P.weeks) P.weeks=st.P.weeks;
-      if(st.P.adopt) P.adopt=st.P.adopt;
-      if(st.P.gain) P.gain=st.P.gain;
+    var p=st.p||{}, f=st.f||[];
+    if(st.v===1) { // anciens liens : objet complet, on n'en garde que les nombres
+      var old=st.P||{}, of=st.f||{};
+      p={pr:old.prices&&SERVICE_KEYS.map(function(k){return old.prices[k];}),fx:old.fx,w:old.weeks,
+         a:old.adopt&&old.adopt.map(function(x){return x.val;}),g:old.gain&&old.gain.map(function(x){return x.val;})};
+      f=SHARE_FIELDS.map(function(id){ return of[id]; });
+      st.m=st.mix; st.l=st.lang==='en'?'e':'f';
     }
-    if(st.lang==='en') { lang='en'; el('btn-fr').classList.remove('on'); el('btn-en').classList.add('on'); }
-    buildParamInputs(); buildSelects(); applyT();
-    Object.keys(st.f||{}).forEach(function(id){ if(SHARE_FIELDS.indexOf(id)>-1&&el(id)) el(id).value=st.f[id]; });
-    el('mix').value=st.mix||0;
-    setMix(st.mix||0);
+    if(p.pr&&p.pr.length===SERVICE_KEYS.length) SERVICE_KEYS.forEach(function(k,i){ P.prices[k]=num(p.pr[i],0,100000,P.prices[k]); });
+    if(p.fx!==undefined) P.fx=num(p.fx,0.01,100,P.fx);
+    if(p.w!==undefined) P.weeks=Math.round(num(p.w,1,52,P.weeks));
+    if(p.a) P.adopt.forEach(function(x,i){ if(i<p.a.length) x.val=num(p.a[i],0,1000,x.val); });
+    if(p.g) P.gain.forEach(function(x,i){ if(i<p.g.length) x.val=num(p.g[i],0,168,x.val); });
+    if(st.l==='e'&&lang!=='en') setLang('en');
+    else { buildParamInputs(); buildSelects(); applyT(); }
+    SHARE_FIELDS.forEach(function(id,i){
+      var v=f[i]; if(v===undefined||v===null) return;
+      var e=el(id); if(!e) return;
+      if(id==='service') { if(v===''||SERVICE_KEYS.indexOf(v)>-1) e.value=v; }
+      else if(id==='adopt-sel') { if(v===''||(parseInt(v)>=0&&parseInt(v)<P.adopt.length)) e.value=v; }
+      else if(id==='gain-sel-1'||id==='gain-sel-2') { if(parseInt(v)>=0&&parseInt(v)<P.gain.length) e.value=String(parseInt(v)); }
+      else if(id==='svc1'||id==='svc2') { var n=parseInt(String(v).replace(/[^0-9]/g,''))||0; e.value=n>0?n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'\u2009'):''; }
+      else e.value=num(v,0,id==='discount'?100:id==='users'?100000:100000,0);
+    });
+    el('mix').value=Math.round(num(st.m,0,100,0)/5)*5;
+    setMix(el('mix').value);
   } catch(e) {}
 }
 
