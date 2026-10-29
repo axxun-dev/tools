@@ -78,6 +78,7 @@ input:focus,select:focus{border-color:var(--teal)}
 .share-row button,.share-close{padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;border:none}
 #share-copy{background:var(--teal);color:var(--navy)}
 .share-close{background:transparent;color:var(--muted);border:1px solid var(--border);font-weight:500;margin-top:14px}
+.disc{margin-top:4rem;padding-top:1.25rem;border-top:1px solid var(--border);font-size:11px;line-height:1.6;color:rgba(6,25,71,.42);max-width:760px}
 #tip{position:absolute;z-index:50;max-width:300px;background:var(--navy);color:#fff;font-size:12.5px;line-height:1.5;padding:11px 13px;border-radius:var(--r);box-shadow:0 6px 24px rgba(6,25,71,.25)}
 .hidden{display:none}
 .divider{height:1px;background:var(--border);margin:.75rem 0}
@@ -237,6 +238,7 @@ input:focus,select:focus{border-color:var(--teal)}
     <div class="roi-card" id="rc2"><div class="roi-lbl" id="lbl-rc2">Année 2</div><div class="roi-val" id="rv2">—</div><div class="roi-pct" id="rp2">—</div></div>
     <div class="roi-card" id="rcC"><div class="roi-lbl" id="lbl-rcC">ROI cumulé 2 ans</div><div class="roi-val" id="rvC">—</div><div class="roi-pct" id="rpC">—</div></div>
   </div>
+  <div class="disc" id="disc"></div>
 </div>
 </div>
 
@@ -290,6 +292,9 @@ var TR_EN = {
   rcum:'Cumulative 2-year ROI',
   svcs:['monday Work Management','monday CRM','monday Dev','monday Service']
 };
+
+var DISC_FR="Ce document est fourni à titre informatif uniquement. Les estimations présentées sont basées sur des hypothèses et des moyennes sectorielles. Elles ne constituent pas une garantie de résultats. Les gains de productivité réels dépendent de nombreux facteurs propres à chaque organisation, notamment le niveau d'adoption, la qualité de l'implémentation et les processus internes. Axxun Evalua Sàrl décline toute responsabilité quant aux décisions prises sur la base de ce document.";
+var DISC_EN="This document is provided for informational purposes only. The estimates presented are based on assumptions and industry averages. They do not constitute a guarantee of results. Actual productivity gains depend on many factors specific to each organisation, including adoption level, implementation quality and internal processes. Axxun Evalua Sàrl disclaims all liability for decisions made on the basis of this document.";
 
 var TIPS_FR = {
   users:"Nombre de collaborateurs qui utiliseront monday.com au quotidien (licences payantes). Il détermine le coût des licences, le coût d'adoption et le temps gagné au total.",
@@ -354,6 +359,7 @@ function fmtH(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))
 
 function applyT() {
   var tr=t();
+  txt('disc',lang==='fr'?DISC_FR:DISC_EN);
   closeTip();
   txt('lbl-fx',tr.fx); txt('lbl-fxrate',tr.fxrate); txt('lbl-weeks',tr.weeks);
   txt('lbl-adopt-title',tr.adoptTitle); txt('lbl-adopt-unit',tr.adoptUnit);
@@ -576,9 +582,7 @@ function doPrint() {
   var hourly=el('hourly').value||'0';
   var billable=el('billable').value||'0';
   var date=new Date().toLocaleDateString(lang==='fr'?'fr-CH':'en-GB',{day:'2-digit',month:'long',year:'numeric'});
-  var disc=lang==='fr'
-    ?"Ce document est fourni à titre informatif uniquement. Les estimations présentées sont basées sur des hypothèses et des moyennes sectorielles. Elles ne constituent pas une garantie de résultats. Les gains de productivité réels dépendent de nombreux facteurs propres à chaque organisation, notamment le niveau d'adoption, la qualité de l'implémentation et les processus internes. Axxun Evalua Sàrl décline toute responsabilité quant aux décisions prises sur la base de ce document."
-    :"This document is provided for informational purposes only. The estimates presented are based on assumptions and industry averages. They do not constitute a guarantee of results. Actual productivity gains depend on many factors specific to each organisation, including adoption level, implementation quality and internal processes. Axxun Evalua Sàrl disclaims all liability for decisions made on the basis of this document.";
+  var disc=lang==='fr'?DISC_FR:DISC_EN;
 
   function r(id) { var e=el(id); return e?e.innerHTML:'—'; }
 
