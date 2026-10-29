@@ -114,7 +114,7 @@ input:focus,select:focus{border-color:var(--teal)}
   <div class="sec-lbl" id="lbl-fx">Taux de change</div>
   <div class="card">
     <div class="g2">
-      <div class="fld"><label id="lbl-fxrate">1 € = x CHF</label><input type="number" id="fx" value="0.97" step="0.001" min="0.01"></div>
+      <div class="fld"><label id="lbl-fxrate">1 € = x CHF</label><input type="number" id="fx" value="0.93" step="0.001" min="0.01"></div>
     </div>
   </div>
   <div class="sec-lbl" id="lbl-adopt-title">Paliers d'adoption <span class="tag" id="lbl-adopt-unit">jours / utilisateur</span></div>
@@ -255,7 +255,7 @@ var DN_GAIN_OLD = ['Very low','Low','Medium','High','Ninja!'];
 
 var P = {
   prices: {wm:52,crm:65,dev:35,service:71},
-  fx:0.97, weeks:46,
+  fx:0.93, weeks:46,
   adopt: [{name:'Ninja!',val:2},{name:'Enthousiastes',val:3},{name:'Classique',val:4},{name:'Résistants',val:6}],
   gain:  [{name:'Limité',val:1},{name:'Modéré',val:2},{name:'Significatif',val:4},{name:'Élevé',val:6},{name:'Très élevé',val:8}]
 };
@@ -458,7 +458,7 @@ function buildSelects() {
 }
 
 function saveParams() {
-  P.fx=parseFloat(el('fx').value)||0.97;
+  P.fx=parseFloat(el('fx').value)||0.93;
   P.weeks=parseInt(el('weeks').value)||46;
   try { localStorage.setItem('roi_params',JSON.stringify(P)); } catch(e) {}
   calc();
